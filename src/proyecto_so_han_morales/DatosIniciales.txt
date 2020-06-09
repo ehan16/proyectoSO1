@@ -1,0 +1,8 @@
+tiempoHora:         10   
+estantesIni:        1    
+estantesMax:        3    
+capacidadMax:       10   
+cajasIni:           4    
+cajasMax:           10   
+carritosIni:        10   
+carritosMax:        20   
