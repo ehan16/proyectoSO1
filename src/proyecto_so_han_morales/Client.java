@@ -10,18 +10,30 @@ public class Client extends Thread{
     
     // ATRIBUTOS DE LA CLASE
     
-    // Semaforos (EM = exclusion mutua, E = empleado, C = cliente)
-    private Semaphore SEME, SEE, SCE; // De los estantes
-    private Semaphore SEMCR, SECR, SCCR; // De las cajas registradoras 
-    private Semaphore SCC; // De los carritos de compra
+    // Declaracion de los semaforos
+    private final Semaphore[] SEME;  // Exclusion mutua de los estantes
+    private final Semaphore[] SEE;   // Empleados de los estantes
+    private final Semaphore[] SCE;   // Clientes de los estantes
+    private final Semaphore SEMCR; // Exclusion mutua de las cajas registradoras
+    private final Semaphore SECR;  // Empleados de las cajas registradoras 
+    private final Semaphore SCCR;  // Clientes de las cajas registradoras
+    private final Semaphore SCC;   // De los carritos de compra
     
     private int id;
-    private int productos;
-    private int monto;
+    private int productos = 0;
+    private int monto = 0;
     private Gama gama;
     private boolean activo = true; // Para saber si esta dentro del sistema
-    
-    public Client (){
+
+    public Client(Semaphore[] SEME, Semaphore[] SEE, Semaphore[] SCE, Semaphore SEMCR, Semaphore SECR, Semaphore SCCR, Semaphore SCC, int id) {
+        this.SEME = SEME;
+        this.SEE = SEE;
+        this.SCE = SCE;
+        this.SEMCR = SEMCR;
+        this.SECR = SECR;
+        this.SCCR = SCCR;
+        this.SCC = SCC;
+        this.id = id;
     }
     
     /*
@@ -37,37 +49,49 @@ public class Client extends Thread{
                 
                 // Solicita entrar al supermecado con un carrito
                 SCC.acquire();
+                System.out.println("El cliente " + this.id + "ha entrado al Gama");
                 
                 // El cliente tiene que recorrer todos los estantes disponibles
-                // Imaginaqueaquiseiteranlosestantes
-                
-                    // Los cinco minutos que tarda en llegar al estante
-                    Thread.sleep(5000);
-                
-                    // Verifica si existen productos en el estante
-                    int productosDisponibles = SEE.availablePermits();
-                    int productosComprar;
-                
-                    if (productosDisponibles == 1) {
+                for (int i = 0; i < Gama.estante.length; i++) {
                     
-                        // Si existe 1 solo producto, se llevara uno solo
-                        productosComprar = productosDisponibles;
+                    // Se valida que el estante existe antes de proceder
+                    if (Gama.estante[i] != null) {
+                        
+                        // Los cinco minutos que tarda en llegar al estante
+                        this.sleep(5000);
+                        System.out.println("El cliente " + this.id + "ha llegado al estante " + 1);
+                
+                        // Verifica si existen productos en el estante
+                        int productosDisponibles = SEE[i].availablePermits();
+                        int productosComprar;
+                        
+                        if (productosDisponibles == 1) {
                     
-                    } else {
+                            // Si existe 1 solo producto, se llevara uno solo
+                            productosComprar = productosDisponibles;
                     
-                        // Sino elige libremente cuantos quiere
-                        productosComprar = (int) (Math.random() * 3); 
+                        } else {
+                    
+                            // Sino elige libremente cuantos quiere
+                            productosComprar = (int) (Math.random() * 3); 
+                        
+                        }
+                 
+                        // Verifica si existen productos en el estante y solicita retirarlas
+                        // Si no hay productos, espera hasta que el empleado introduzca mas
+                        this.SEE[i].acquire(productosComprar);
+                        this.SEME[i].acquire();
+                
+                        // El cliente tarda un minuto en adquirir todos sus productos
+                        this.sleep(1000);
+                        System.out.println("El cliente " + this.id + "ha adquirido " + productosComprar + " productos");                 
                         
                     }
-                 
-                    // Verifica si existen productos en el estante y solicita retirarlas
-                    // Si no hay productos, espera hasta que el empleado introduzca mas
-                    this.SEE.acquire(productosComprar);
-                    this.SEME.acquire();
-                
-                    // El cliente tarda un minuto en adquirir todos sus productos
-                    Thread.sleep(1000);
                     
+                }
+                    
+                // Ya con todos los productos, se dirige a la caja registradora
+                
                     
                     
                 

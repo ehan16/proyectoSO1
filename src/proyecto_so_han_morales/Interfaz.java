@@ -425,9 +425,13 @@ public class Interfaz extends javax.swing.JFrame {
     // METODOS DE LA INTERFAZ
     
     private void btnAddShoppingCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddShoppingCartActionPerformed
-        // TODO add your handling code here:
+        
         // Se revisa si ya se ha llegado a la cantidad maxima
-        if (gama.getCarritos() < gama.getCarritosMax()) {
+        if (Gama.carritos < gama.getCarritosMax()) {
+           
+            gama.getSCC().release(); // Se aumenta un permiso al semaforo de carritos
+            Gama.carritos++;
+            this.txtShoppingCarts.setText(Integer.toString(Gama.carritos));
             
         } else {
             
