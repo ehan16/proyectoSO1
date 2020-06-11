@@ -91,44 +91,44 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="93" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel10" alignment="0" min="-2" pref="177" max="-2" attributes="0"/>
-                          <Component id="txtClientsActive" alignment="0" min="-2" pref="184" max="-2" attributes="0"/>
-                          <Component id="jLabel5" alignment="0" min="-2" pref="211" max="-2" attributes="0"/>
-                          <Component id="txtClientsWaiting" alignment="0" min="-2" pref="184" max="-2" attributes="0"/>
-                          <Component id="jLabel4" min="-2" pref="211" max="-2" attributes="0"/>
-                          <Component id="jLabel11" min="-2" pref="177" max="-2" attributes="0"/>
-                          <Component id="jLabel2" min="-2" pref="92" max="-2" attributes="0"/>
-                          <Component id="txtShelf" alignment="0" min="-2" pref="184" max="-2" attributes="0"/>
-                          <Component id="jLabel6" min="-2" pref="211" max="-2" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="btnAddShoppingCart" min="-2" pref="78" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnDeleteShoppingCart" max="32767" attributes="0"/>
+                          <Component id="txtShoppingCarts" min="-2" pref="184" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel10" alignment="0" min="-2" pref="177" max="-2" attributes="0"/>
+                                  <Component id="jLabel5" alignment="0" min="-2" pref="211" max="-2" attributes="0"/>
+                                  <Component id="jLabel4" min="-2" pref="211" max="-2" attributes="0"/>
+                                  <Component id="jLabel11" min="-2" pref="177" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" min="-2" pref="92" max="-2" attributes="0"/>
+                                  <Component id="jLabel6" min="-2" pref="211" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="btnAddShoppingCart" min="-2" pref="78" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="btnDeleteShoppingCart" min="-2" pref="88" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="btnAddShelf" min="-2" pref="78" max="-2" attributes="0"/>
+                                  <Component id="txtClientsActive" min="-2" pref="184" max="-2" attributes="0"/>
+                                  <Component id="txtClientsWaiting" min="-2" pref="184" max="-2" attributes="0"/>
+                                  <Component id="txtShelf" min="-2" pref="184" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="txtShoppingCarts" min="-2" pref="184" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="btnAddShelf" min="-2" pref="78" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel3" min="-2" pref="211" max="-2" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="btnAddCashier" min="-2" pref="85" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnDeleteCashier" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel3" min="-2" pref="211" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="btnAddCashier" min="-2" pref="85" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="btnDeleteCashier" min="-2" pref="81" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="jLabel12" min="-2" pref="177" max="-2" attributes="0"/>
+                                  <Component id="jLabel9" alignment="0" min="-2" pref="96" max="-2" attributes="0"/>
+                                  <Component id="jLabel8" min="-2" pref="211" max="-2" attributes="0"/>
+                                  <Component id="txtCashier" min="-2" pref="184" max="-2" attributes="0"/>
+                                  <Component id="txtEarnings" min="-2" pref="184" max="-2" attributes="0"/>
+                                  <Component id="txtHours" min="-2" pref="184" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="txtCashier" min="-2" pref="184" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jLabel12" min="-2" pref="177" max="-2" attributes="0"/>
-                          <Component id="jLabel9" alignment="0" min="-2" pref="96" max="-2" attributes="0"/>
-                          <Component id="jLabel8" min="-2" pref="211" max="-2" attributes="0"/>
-                          <Component id="txtEarnings" min="-2" pref="184" max="-2" attributes="0"/>
-                          <Component id="txtHours" alignment="0" min="-2" pref="184" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="93" max="32767" attributes="0"/>
                   </Group>
@@ -144,16 +144,16 @@
                       </Group>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="txtCashier" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel4" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="txtCashier" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="txtClientsActive" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnAddCashier" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnDeleteCashier" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="txtClientsActive" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
@@ -171,20 +171,20 @@
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <Component id="txtEarnings" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel8" min="-2" pref="30" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="txtHours" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <Component id="jLabel11" min="-2" pref="30" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel2" min="-2" pref="30" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="txtShelf" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                               <Component id="btnAddShelf" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                               <Component id="jLabel6" min="-2" pref="24" max="-2" attributes="0"/>
@@ -269,22 +269,6 @@
                 <Property name="text" type="java.lang.String" value="Horas laborales cursadas"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtClientsActive">
-              <Properties>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtClientsActiveActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtClientsWaiting">
-              <Properties>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtClientsWaitingActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JLabel" name="jLabel9">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -318,22 +302,6 @@
                 <Property name="text" type="java.lang.String" value="Sobre la sucursal"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtShelf">
-              <Properties>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtShelfActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtShoppingCarts">
-              <Properties>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtShoppingCartsActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JButton" name="btnAddShoppingCart">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -366,14 +334,6 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteShoppingCartActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtEarnings">
-              <Properties>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtEarningsActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnAddCashier">
@@ -421,22 +381,6 @@
                 <Property name="text" type="java.lang.String" value="Sobre las estad&#xed;sticas"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtCashier">
-              <Properties>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCashierActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtHours">
-              <Properties>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtHoursActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JButton" name="btnAddShelf">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -452,6 +396,62 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddShelfActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtClientsActive">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtClientsActiveActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtClientsWaiting">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtClientsWaitingActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtShelf">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtShelfActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtShoppingCarts">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtShoppingCartsActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtCashier">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCashierActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtEarnings">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtEarningsActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtHours">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtHoursActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
