@@ -6,21 +6,21 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 import static java.lang.Integer.parseInt; // Se utiliza para leer datos y realizar la conversion a int de manera mas eficaz
+import java.util.ArrayList;
 
 public class Gama {
     
     // ATRIBUTOS DE LA CLASE
     
-    // private Client cliente[]; 
-    public static Employee empleado[];
+    public static ArrayList<Employee> empleado = new ArrayList<Employee>();
+    public static ArrayList<Client> cliente = new ArrayList<Client>();
     public static Shelf estante[];
-    private Interfaz interfaz;
     
-    private int tiempoHora;    // Tiempo que dura un dia en el programa
-    private int estantesMax;   // Maximo de los estantes
-    private int capacidadMax;  // Capacidad maxima de productos por estante
-    private int cajasMax;      // Maximo de cajas
-    private int carritosMax;   // Maximo de carritos
+    public static int tiempoHora;    // Tiempo que dura un dia en el programa
+    public static int estantesMax;   // Maximo de los estantes
+    public static int capacidadMax;  // Capacidad maxima de productos por estante
+    public static int cajasMax;      // Maximo de cajas
+    public static int carritosMax;   // Maximo de carritos
     
     // Semaforos (EM = exclusion mutua, C = cliente, E = empleado)
     private Semaphore[] SEME, SCE, SEE;  // Semaforos de los estantes
@@ -40,14 +40,14 @@ public class Gama {
     public static int horasLaboradas = 0;  // Contador de las horas que se han cursado en el dia
     public static int ganancias = 0;       // Contador de las ganancias
     
+    private int cont = 1;   // Se utilizara para el id de los clientes
     private Gama gama;
     private Manager gerente;
+//    private boolean open = true;
     
     // CONSTRUCTOR DE LA CLASE 
     
-    public Gama(Interfaz vista) {
-        this.gama = this;
-        this.interfaz = vista;
+    public Gama() {
     }
     
     // METODOS DE LA CLASE
@@ -61,12 +61,12 @@ public class Gama {
         String line = doc.nextLine();
         
         // Se procede a leer cada dato en el archivo y se guarda en su variable respectiva
-        this.tiempoHora = parseInt(line.substring(20, 30).trim());
-        System.out.println(this.tiempoHora);
+        Gama.tiempoHora = parseInt(line.substring(20, 30).trim());
+        System.out.println(Gama.tiempoHora);
         line = doc.nextLine();
         
         // Se tiene que verificar la validez de cada dato y corregirla de ser necesario
-        if(this.tiempoHora < 0){
+        if(Gama.tiempoHora < 0){
             JOptionPane.showMessageDialog(null, "Dato invalido");  
             tiempoHora = 100000;
         }
@@ -80,20 +80,20 @@ public class Gama {
             estantes = 1;
         }
         
-        this.estantesMax = parseInt(line.substring(20, 25).trim());
-        System.out.println(this.estantesMax);
+        Gama.estantesMax = parseInt(line.substring(20, 25).trim());
+        System.out.println(Gama.estantesMax);
         line = doc.nextLine();
         
-        if(this.estantesMax < 0){
+        if(Gama.estantesMax < 0){
             JOptionPane.showMessageDialog(null, "Dato invalido");  
             estantesMax = 3;
         }
         
-        this.capacidadMax = parseInt(line.substring(20, 25).trim());
-        System.out.println(this.capacidadMax);
+        Gama.capacidadMax = parseInt(line.substring(20, 25).trim());
+        System.out.println(Gama.capacidadMax);
         line = doc.nextLine();
         
-        if(this.capacidadMax < 0){
+        if(Gama.capacidadMax < 0){
             JOptionPane.showMessageDialog(null, "Dato invalido");  
             capacidadMax = 10;
         }
@@ -107,11 +107,11 @@ public class Gama {
             cajeros = 4;
         }
         
-        this.cajasMax = parseInt(line.substring(20, 25).trim());
-        System.out.println(this.cajasMax);
+        Gama.cajasMax = parseInt(line.substring(20, 25).trim());
+        System.out.println(Gama.cajasMax);
         line = doc.nextLine();
         
-        if(this.cajasMax < 0){
+        if(Gama.cajasMax < 0){
             JOptionPane.showMessageDialog(null, "Dato invalido");  
             cajasMax = 10;
         }
@@ -125,10 +125,10 @@ public class Gama {
             carritos = 10;
         }
         
-        this.carritosMax = parseInt(line.substring(20, 25).trim());
-        System.out.println(this.carritosMax);
+        Gama.carritosMax = parseInt(line.substring(20, 25).trim());
+        System.out.println(Gama.carritosMax);
             
-        if(this.carritosMax < 0){
+        if(Gama.carritosMax < 0){
             JOptionPane.showMessageDialog(null, "Dato invalido"); 
             carritosMax = 20;
         }
@@ -143,9 +143,9 @@ public class Gama {
         // Semaforos de los estantes
         
         // Se crean los arreglos
-        SEME = new Semaphore[this.estantesMax];
-        SEE = new Semaphore[this.estantesMax];
-        SCE = new Semaphore[this.estantesMax];
+        SEME = new Semaphore[Gama.estantesMax];
+        SEE = new Semaphore[Gama.estantesMax];
+        SCE = new Semaphore[Gama.estantesMax];
         
         // Se crean todos los semaforos
         for (int i = 0; i < SEME.length; i++) {
@@ -153,7 +153,7 @@ public class Gama {
         }
         
         for (int i = 0; i < SEE.length; i++) {
-            this.SEE[i] = new Semaphore(this.capacidadMax);
+            this.SEE[i] = new Semaphore(Gama.capacidadMax);
         }
         
         for (int i = 0; i < SCE.length; i++) {
@@ -166,22 +166,21 @@ public class Gama {
         this.SCCR = new Semaphore(0);
         
         // Semaforo de los carritos de compra
-        this.SCC = new Semaphore(this.carritosMax);
-        this.SCC.acquire(this.carritosMax - Gama.carritos);
+        this.SCC = new Semaphore(Gama.carritosMax);
+        this.SCC.acquire(Gama.carritosMax - Gama.carritos);
         
     }
+    
     
     /*
      *  Metodo para inicializar los apuntadores y estantes
     */
     public void inicializarValores() {
         
-        // Gama.empleado = new Employee[this.estantesMax];
-        
         // Se crean los estantes iniciales
-        Gama.estante = new Shelf[this.estantesMax];     
+        Gama.estante = new Shelf[Gama.estantesMax];     
         for (int i = 0; i < estantes; i++) {         
-            Gama.estante[i] = new Shelf(capacidadMax, i);
+            Gama.estante[i] = new Shelf(capacidadMax, i + 1);
         }
         
         // Se inicializan los apuntadores del cliente
@@ -196,10 +195,38 @@ public class Gama {
         
     }
     
+    
     /*
      *  Metodo para crear hilos
     */
-    public void crearHilo(int tipo) {
+    public void crearHilo(int tipo, int num) {
+        
+        switch(tipo) {
+            
+            case 0: 
+                
+                // Se crea un empleado
+                Employee e = new Employee(); // FALTA PASAR LOS SEMAFOROS
+                e.start();
+                break;
+                
+            case 1: 
+                
+                // Se crea un cliente
+                Client c = new Client(SEME, SEE, SCE, SEMCR, SECR, SCCR, SCC, cont);
+                cliente.add(c);
+                cont++;
+                c.start();
+                break;
+                
+            case 2:
+                
+                break;
+                
+            default:
+                break;
+            
+        }   
         
     }
     
@@ -212,12 +239,10 @@ public class Gama {
         this.CrearSemaforos();
         this.inicializarValores();
         
-        // Se muestra la data actual en la interfaz
-        this.interfaz.getTxtCashier().setText(Integer.toString(cajeros));
-        this.interfaz.getTxtEarnings().setText(Integer.toString(ganancias));
-        this.interfaz.getTxtHours().setText(Integer.toString(horasLaboradas));
-        this.interfaz.getTxtShelf().setText(Integer.toString(estantes));
-        this.interfaz.getTxtShoppingCarts().setText(Integer.toString(carritos));
+        // Se muestran los datos en la interfaz
+        Interfaz.txtCashier.setText(Integer.toString(Gama.cajeros));
+        Interfaz.txtShelf.setText(Integer.toString(Gama.estantes));
+        Interfaz.txtShoppingCarts.setText(Integer.toString(Gama.carritos));
         
         // Se crean todos los hilos iniciales
         
@@ -227,60 +252,23 @@ public class Gama {
             e.start();
         }
         
+        // los hilos de los cajeros
+        
+        
+        
+        while (true) {
+            
+            // Se crean los hilos de los clientes de manera indefinida cada 5 min
+            crearHilo(1, 0);
+            Thread.sleep(300 * 1000);
+            
+        }
         
     }
     
     
     // GETTERS Y SETTERS
-
-    public Interfaz getInterfaz() {
-        return interfaz;
-    }
-
-    public void setInterfaz(Interfaz interfaz) {
-        this.interfaz = interfaz;
-    }
-
-    public int getTiempoHora() {
-        return tiempoHora;
-    }
-
-    public void setTiempoHora(int tiempoHora) {
-        this.tiempoHora = tiempoHora;
-    }
-
-    public int getEstantesMax() {
-        return estantesMax;
-    }
-
-    public void setEstantesMax(int estantesMax) {
-        this.estantesMax = estantesMax;
-    }
-
-    public int getCapacidadMax() {
-        return capacidadMax;
-    }
-
-    public void setCapacidadMax(int capacidadMax) {
-        this.capacidadMax = capacidadMax;
-    }
-
-    public int getCajasMax() {
-        return cajasMax;
-    }
-
-    public void setCajasMax(int cajasMax) {
-        this.cajasMax = cajasMax;
-    }
-
-    public int getCarritosMax() {
-        return carritosMax;
-    }
-
-    public void setCarritosMax(int carritosMax) {
-        this.carritosMax = carritosMax;
-    }
-
+    
     public Semaphore[] getSEME() {
         return SEME;
     }

@@ -1,27 +1,23 @@
 
 package proyecto_so_han_morales;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 
 public class Interfaz extends javax.swing.JFrame {
-
+    
     Gama gama;
     
-    public Interfaz(Gama gama) {
+    public Interfaz() {
         
         initComponents();
         this.setLocationRelativeTo(null);
-        this.gama = gama;
-        this.txtCashier.setText("0");
-        this.txtClientsActive.setText("0");
-        this.txtClientsWaiting.setText("0");
-        this.txtShelf.setText("0");
-        this.txtShoppingCarts.setText("0");
-        this.txtEarnings.setText("0");
-        this.txtHours.setText("0");
+        this.setResizable(false);
+        gama = new Gama();
         
     }
 
@@ -153,6 +149,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        txtClientsActive.setText("0");
         txtClientsActive.setEnabled(false);
         txtClientsActive.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,6 +157,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        txtClientsWaiting.setText("0");
         txtClientsWaiting.setEnabled(false);
         txtClientsWaiting.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -167,6 +165,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        txtShelf.setText("0");
         txtShelf.setEnabled(false);
         txtShelf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -174,6 +173,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        txtShoppingCarts.setText("0");
         txtShoppingCarts.setEnabled(false);
         txtShoppingCarts.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -181,6 +181,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        txtCashier.setText("0");
         txtCashier.setEnabled(false);
         txtCashier.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -188,6 +189,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        txtEarnings.setText("0");
         txtEarnings.setEnabled(false);
         txtEarnings.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -195,6 +197,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        txtHours.setText("0");
         txtHours.setEnabled(false);
         txtHours.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -313,11 +316,11 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addGap(22, 22, 22)
                 .addComponent(jLabel1)
-                .addGap(28, 28, 28)
+                .addGap(19, 19, 19)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -338,14 +341,6 @@ public class Interfaz extends javax.swing.JFrame {
 
     // GETTERS Y SETTERS
     
-    public Gama getGama() {
-        return this.gama;
-    }
-    
-    public void setGama(Gama gama) {
-        this.gama = gama;
-    }
-    
     public JButton getBtnAddCashier() {
         return btnAddCashier;
     }
@@ -364,14 +359,6 @@ public class Interfaz extends javax.swing.JFrame {
 
     public JButton getBtnDeleteShoppingCart() {
         return btnDeleteShoppingCart;
-    }
-
-    public JTextField getTxtCashier() {
-        return txtCashier;
-    }
-
-    public void setTxtCashier(JTextField txtCashier) {
-        this.txtCashier = txtCashier;
     }
 
     public JTextField getTxtClientsActive() {
@@ -405,29 +392,13 @@ public class Interfaz extends javax.swing.JFrame {
     public void setTxtHours(JTextField txtHours) {
         this.txtHours = txtHours;
     }
-
-    public JTextField getTxtShelf() {
-        return txtShelf;
-    }
-
-    public void setTxtShelf(JTextField txtShelf) {
-        this.txtShelf = txtShelf;
-    }
-
-    public JTextField getTxtShoppingCarts() {
-        return txtShoppingCarts;
-    }
-
-    public void setTxtShoppingCarts(JTextField txtShoppingCarts) {
-        this.txtShoppingCarts = txtShoppingCarts;
-    }
     
     // METODOS DE LA INTERFAZ
     
     private void btnAddShoppingCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddShoppingCartActionPerformed
         
         // Se revisa si ya se ha llegado a la cantidad maxima
-        if (Gama.carritos < gama.getCarritosMax()) {
+        if (Gama.carritos < Gama.carritosMax) {
            
             gama.getSCC().release(); // Se aumenta un permiso al semaforo de carritos
             Gama.carritos++;
@@ -442,8 +413,28 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddShoppingCartActionPerformed
 
     private void btnDeleteShoppingCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteShoppingCartActionPerformed
-        // TODO add your handling code here:
-         // Se revisa si ya se ha llegado a la cantidad minima
+      
+        // Se revisa si ya se ha llegado a la cantidad minima
+        if (Gama.carritos == 1) {
+             
+            JOptionPane.showMessageDialog(null, "Ha alcanzado el mínimo de carritos", "ERROR", JOptionPane.ERROR_MESSAGE);
+             
+        } else {
+             
+            try {
+                
+                gama.getSCC().acquire();
+                Gama.carritos--;
+                this.txtShoppingCarts.setText(Integer.toString(Gama.carritos));
+                
+            } catch (InterruptedException ex) {
+                
+                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                
+            }
+             
+        }
+         
     }//GEN-LAST:event_btnDeleteShoppingCartActionPerformed
 
     private void btnAddCashierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCashierActionPerformed
@@ -457,15 +448,27 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteCashierActionPerformed
 
     private void btnAddShelfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddShelfActionPerformed
-        // TODO add your handling code here:
-         // Se revisa si ya se ha llegado a la cantidad maxima
+       
+        // Se revisa si ya se ha llegado a la cantidad maxima
+        if (Gama.estantes < Gama.estantesMax) {
+            
+            // Buscamos la posicion de donde podemos colocar el nuevo estante y se crea
+            int aux = Gama.estantes;
+            Gama.estante[aux] = new Shelf(Gama.capacidadMax, aux + 1);
+            
+            // Ahora se crea el empleado que se hara cargo de ese estante
+            // y se le asigna los semaforos de ese estante
+            Employee e = new Employee();
+            e.start();
+            
+        } else {
+            
+            JOptionPane.showMessageDialog(null, "Ha alcanzado el máximo de estantes", "ERROR", JOptionPane.ERROR_MESSAGE);
+            
+        }
+       
     }//GEN-LAST:event_btnAddShelfActionPerformed
-
-    
-    
-    
-    
-    
+        
     private void txtClientsActiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClientsActiveActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtClientsActiveActionPerformed
@@ -514,12 +517,12 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField txtCashier;
+    public static javax.swing.JTextField txtCashier;
     private javax.swing.JTextField txtClientsActive;
     private javax.swing.JTextField txtClientsWaiting;
     private javax.swing.JTextField txtEarnings;
     private javax.swing.JTextField txtHours;
-    private javax.swing.JTextField txtShelf;
-    private javax.swing.JTextField txtShoppingCarts;
+    public static javax.swing.JTextField txtShelf;
+    public static javax.swing.JTextField txtShoppingCarts;
     // End of variables declaration//GEN-END:variables
 }
