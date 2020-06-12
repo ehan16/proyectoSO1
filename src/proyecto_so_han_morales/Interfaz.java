@@ -1,6 +1,7 @@
 
 package proyecto_so_han_morales;
 
+import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -12,12 +13,13 @@ public class Interfaz extends javax.swing.JFrame {
     
     Gama gama;
     
-    public Interfaz() {
+    public Interfaz() throws FileNotFoundException, InterruptedException {
         
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         gama = new Gama();
+        gama.Start();
         
     }
 
@@ -450,22 +452,22 @@ public class Interfaz extends javax.swing.JFrame {
     private void btnAddShelfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddShelfActionPerformed
        
         // Se revisa si ya se ha llegado a la cantidad maxima
-        if (Gama.estantes < Gama.estantesMax) {
-            
-            // Buscamos la posicion de donde podemos colocar el nuevo estante y se crea
-            int aux = Gama.estantes;
-            Gama.estante[aux] = new Shelf(Gama.capacidadMax, aux + 1);
-            
-            // Ahora se crea el empleado que se hara cargo de ese estante
-            // y se le asigna los semaforos de ese estante
-            Employee e = new Employee();
-            e.start();
-            
-        } else {
-            
-            JOptionPane.showMessageDialog(null, "Ha alcanzado el máximo de estantes", "ERROR", JOptionPane.ERROR_MESSAGE);
-            
-        }
+//        if (Gama.estantes < Gama.estantesMax) {
+//            
+//            // Buscamos la posicion de donde podemos colocar el nuevo estante y se crea
+//            int aux = Gama.estantes;
+//            Gama.estante[aux] = new Shelf(Gama.capacidadMax, aux + 1);
+//            
+//            // Ahora se crea el empleado que se hara cargo de ese estante
+//            // y se le asigna los semaforos de ese estante
+//            Employee e = new Employee();
+//            e.start();
+//            
+//        } else {
+//            
+//            JOptionPane.showMessageDialog(null, "Ha alcanzado el máximo de estantes", "ERROR", JOptionPane.ERROR_MESSAGE);
+//            
+//        }
        
     }//GEN-LAST:event_btnAddShelfActionPerformed
         

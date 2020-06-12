@@ -50,7 +50,7 @@ public class Client extends Thread{
                 Gama.clientesEspera = Gama.clientesEspera + 1;                
                 // Solicita entrar al supermecado con un carrito
                 SCC.acquire();
-                System.out.println("El cliente " + this.id + "ha entrado al Gama");
+                System.out.println("El cliente " + this.id + " ha entrado al Gama");
                 //Una vez se le otorga permiso de acceso al cliente, el mismo ya
                 //no se encuentra en espera, se vuelve un cliente activo
                 Gama.clientesEspera = Gama.clientesEspera - 1;
@@ -63,8 +63,8 @@ public class Client extends Thread{
                     if (Gama.estante[i] != null) {
                         
                         // Los cinco minutos que tarda en llegar al estante
-                        this.sleep(300 * 1000);
-                        System.out.println("El cliente " + this.id + "ha llegado al estante " + Gama.estante[i].getId());
+                        this.sleep(300*1000);
+                        System.out.println("El cliente " + this.id + " ha llegado al estante " + Gama.estante[i].getId());
                 
                         // Verifica si existen productos en el estante
                         int productosDisponibles = SCE[i].availablePermits();
@@ -102,7 +102,7 @@ public class Client extends Thread{
                             
                         }
                         
-                        System.out.println("El cliente " + this.id + "ha adquirido " + productosComprar + " productos en el estante " + Gama.estante[i].getId());                 
+                        System.out.println("El cliente " + this.id + " ha adquirido " + productosComprar + " productos en el estante " + Gama.estante[i].getId());                 
                         
                         // Seccion de salida en cada estante
                         this.SEME[i].release();

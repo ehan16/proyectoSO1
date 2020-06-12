@@ -11,12 +11,15 @@ public class Employee extends Thread {
     
     // Semaforos (EM = exclusion mutua, E = empleado, C = cliente)
     private Semaphore SEME, SEE, SCE; // De los estantes
-    
+    private int id = -1;
     private Gama gama;
     private boolean activo = true;
     
-    public Employee() {
-        
+    public Employee(int id, Semaphore SEME, Semaphore SEE, Semaphore SCE) {
+        this.id = id;
+        this.SEE = SEE;
+        this.SCE = SCE;
+        this.SEME = SEME;
     }
     
     /*
@@ -34,7 +37,17 @@ public class Employee extends Thread {
             
             try {
                 
-                this.sleep(4000); // Tiempo que tarda buscando la caja
+                SEE.acquire(3);//Trata de adquirir 3 espacios para recargar el estante
+                System.out.println("El empleado " + id +" se dirige al estante!");
+                this.sleep(240*1000); // Tiempo que tarda buscando la caja para llevarla al estante
+                SEME.acquire();//Adquiere el permiso total del estante
+                System.out.println("El empleado " + id + " se encuentra en el estante");
+                this.sleep(60*1000);//Tiempo que tarda en colocar los productos en el estante
+                SCE.release(3);//Coloca 3 nuevos productos en el estante
+                System.out.println("El empleado " + id + " ha colocado 3 nuevos productos en el estante");
+                SEME.release();//Libera el estante para que entren nuevos clientes
+                System.out.println("El empleado " + id + " se ha retirado del estante");
+                
                 
             } catch (InterruptedException e) {
                 
