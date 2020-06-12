@@ -165,8 +165,9 @@ public class Gama {
         this.SECR = new Semaphore(Gama.cajeros);
         this.SCCR = new Semaphore(0);
         
-        // Semaforo de los carritos de compra
+        // Semaforo de los carritos totales de compra
         this.SCC = new Semaphore(Gama.carritosMax);
+        // Inicialmente se dejan libres solo los carritos minimos
         this.SCC.acquire(Gama.carritosMax - Gama.carritos);
         
     }

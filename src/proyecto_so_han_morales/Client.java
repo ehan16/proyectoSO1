@@ -46,9 +46,15 @@ public class Client extends Thread{
             // Ejecuta los consumidores
             try {
                 
+                //El cliente al llegar se encuentra automaticamente en espera
+                Gama.clientesEspera = Gama.clientesEspera + 1;                
                 // Solicita entrar al supermecado con un carrito
                 SCC.acquire();
                 System.out.println("El cliente " + this.id + "ha entrado al Gama");
+                //Una vez se le otorga permiso de acceso al cliente, el mismo ya
+                //no se encuentra en espera, se vuelve un cliente activo
+                Gama.clientesEspera = Gama.clientesEspera - 1;
+                Gama.clientesActivos = Gama.clientesActivos + 1;
                 
                 // El cliente tiene que recorrer todos los estantes disponibles
                 for (int i = 0; i < Gama.estante.length; i++) {
