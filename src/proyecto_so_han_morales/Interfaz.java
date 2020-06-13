@@ -534,8 +534,8 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     public static javax.swing.JTextField txtCashier;
-    private javax.swing.JTextField txtClientsActive;
-    private javax.swing.JTextField txtClientsWaiting;
+    public static javax.swing.JTextField txtClientsActive;
+    public static javax.swing.JTextField txtClientsWaiting;
     public static javax.swing.JTextField txtEarnings;
     public static javax.swing.JTextField txtHours;
     public static javax.swing.JTextField txtShelf;
