@@ -30,6 +30,9 @@ public class Gama {
     public static int[] pCE; // Apunta al estante para el cliente
     public static int[] pEE; // Apunta al estante para el empleado
     
+    //Cajeros operando (Herencia de clase Semaphore)
+    Cashier[] cashiers;
+    
     // Datos a mostrar en la interfaz grafica
     public static int clientes;            // Numero de clientes totales
     public static int clientesActivos = 0; // Contador de los clientes en el sistema 
@@ -177,13 +180,16 @@ public class Gama {
         // Inicialmente se dejan libres solo los carritos minimos
         this.SCC.acquire(Gama.carritosMax - Gama.carritos);
         
+        // Se habilita la maxima cantidad de cajeros
+        cashiers = new Cashier[Gama.cajasMax];
+        
     }
     
     
     /*
      *  Metodo para inicializar los apuntadores y estantes
     */
-    public void inicializarValores() {
+    public void inicializarValores() throws InterruptedException {
         
         // Se crean los estantes iniciales
         Gama.estante = new Shelf[Gama.estantesMax];     
@@ -199,6 +205,18 @@ public class Gama {
         // Se inicializan los apuntadores del empleado
         for (int i = 0; i < pEE.length; i++) {
             pEE[i] = 0;
+        }
+        
+        // Se inactivan los cajeros que inicialmente no estaran operando
+        // Y el resto quedan activos
+        for (int i = 0; i<Gama.cajasMax; i++){
+            if ( i != Gama.cajeros){
+                cashiers[i] = new Cashier();
+            }else{
+                cashiers[i] = new Cashier();
+                cashiers[i].setEstatus(false);
+                cashiers[i].inactivarCajero();
+            }
         }
         
     }
@@ -223,7 +241,7 @@ public class Gama {
             case 1: 
                 
                 // Se crea un cliente
-                Client c = new Client(SEME, SEE, SCE, SEMCR, SECR, SCCR, SCC, idC);
+                Client c = new Client(SEME, SEE, SCE, SEMCR, SECR, SCCR, SCC, idC, cashiers);
                 cliente.add(c);
                 idC++;
                 c.start();

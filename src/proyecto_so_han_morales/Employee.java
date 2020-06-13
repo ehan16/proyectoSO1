@@ -39,7 +39,8 @@ public class Employee extends Thread {
                 
                 SEE.acquire(3);//Trata de adquirir 3 espacios para recargar el estante
                 System.out.println("El empleado " + id +" se dirige al estante!");
-                this.sleep(240*1000); // Tiempo que tarda buscando la caja para llevarla al estante
+                //this.sleep(240*1000); // Tiempo que tarda buscando la caja para llevarla al estante
+                this.sleep(50*1000);
                 SEME.acquire();//Adquiere el permiso total del estante
                 System.out.println("El empleado " + id + " se encuentra en el estante");
                 this.sleep(60*1000);//Tiempo que tarda en colocar los productos en el estante

@@ -19,12 +19,15 @@ public class Client extends Thread{
     private final Semaphore SCCR;  // Clientes de las cajas registradoras
     private final Semaphore SCC;   // De los carritos de compra
     
+    // Declaracion de los cajeros (Extension de semaforos):
+    private final Cashier[] cashiers;
+    
     private final int id;
     private int productos = 0;
     private int monto = 0;
     private boolean activo = true; // Para saber si esta dentro del sistema
 
-    public Client(Semaphore[] SEME, Semaphore[] SEE, Semaphore[] SCE, Semaphore SEMCR, Semaphore SECR, Semaphore SCCR, Semaphore SCC, int id) {
+    public Client(Semaphore[] SEME, Semaphore[] SEE, Semaphore[] SCE, Semaphore SEMCR, Semaphore SECR, Semaphore SCCR, Semaphore SCC, int id, Cashier[] cashiers) {
         this.SEME = SEME;
         this.SEE = SEE;
         this.SCE = SCE;
@@ -33,6 +36,7 @@ public class Client extends Thread{
         this.SCCR = SCCR;
         this.SCC = SCC;
         this.id = id;
+        this.cashiers = cashiers;
     }
     
     /*
@@ -63,9 +67,10 @@ public class Client extends Thread{
                     if (Gama.estante[i] != null) {
                         
                         // Los cinco minutos que tarda en llegar al estante
-                        this.sleep(300*1000);
-                        System.out.println("El cliente " + this.id + " ha llegado al estante " + Gama.estante[i].getId());
-                
+                        //this.sleep(300*1000);
+                        this.sleep(60*1000);
+                        System.out.println("El cliente " + this.id + " esta justo fuera del estante " + Gama.estante[i].getId());
+
                         // Verifica si existen productos en el estante
                         int productosDisponibles = SCE[i].availablePermits();
                         int productosComprar;
@@ -88,9 +93,11 @@ public class Client extends Thread{
                         
                         // Seccion critica
                         this.SEME[i].acquire();
+                        System.out.println("El cliente " + id + " se encuentra buscando productos en el estante");
                 
                         // El cliente tarda un minuto en adquirir todos sus productos
-                        this.sleep(60 * 1000);
+                        //this.sleep(60 * 1000);
+                        this.sleep(30*1000);
                         productos += productosComprar;
                         
                         for (int j = 0; j < productosComprar; j++) {
@@ -114,9 +121,26 @@ public class Client extends Thread{
                 }
                     
                 // Ya con todos los productos, se dirige a la caja registradora
+                // Pero debe elegir la caja Registradora mas cercana o mas 
+                // conveniente
+                int cajeroConMenorCola = 0;
+                int clientesEnLaCola = 999;
+                for(int i = 0; i<Gama.cajeros; i++){
+                    if(cashiers[i].getEstatus() == true){
+                        cajeroConMenorCola = i;
+                        break;
+                    }else{
+                        if(cashiers[i].getClientesEsperando()<clientesEnLaCola){
+                            clientesEnLaCola = cashiers[i].getClientesEsperando();
+                            cajeroConMenorCola = i;
+                        }
+                        if(i == Gama.cajeros-1){//Quiere decir que todos los cajeros estan ocupados
+                            cashiers[cajeroConMenorCola].setClientesEsperando(cashiers[cajeroConMenorCola].getClientesEsperando()+1);
+                        }
+                    }
+                }
                 
-                
-                    
+                this.colocarTotalProductos(cashiers[cajeroConMenorCola], productos, cajeroConMenorCola+1);
                 
                 // Se suma lo que consumio el cliente con las ganancias
                 Gama.ganancias += monto;
@@ -137,6 +161,20 @@ public class Client extends Thread{
         
     }
     
+    
+    public void colocarTotalProductos(Cashier cashier, int productos, int idCajero) throws InterruptedException{
+        
+        System.out.println("El cliente " + id + " ha elegido la caja registradora " + idCajero);
+        
+        for(int i = 0; i<productos; i++){
+            cashier.atenderCliente();
+            Thread.sleep(1000/2);//Tiempo que tarda en sacar un producto y colocarlo en el mostrador
+            System.out.println("El cliente " + id + " ha colocado un producto sobre el cajero " + idCajero);
+            cashier.procesarProducto(idCajero);
+        }
+        cashier.despacharCliente();
+        
+    }
     
     // GETTERS Y SETTERS
 
