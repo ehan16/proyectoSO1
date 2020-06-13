@@ -176,7 +176,7 @@ public class Gama {
         this.SCCR = new Semaphore(0);
         
         // Semaforo del gerente y jefe para las horas
-        this.SHL = new Semaphore(8);
+        this.SHL = new Semaphore(0);
         
         // Semaforo de los carritos totales de compra
         this.SCC = new Semaphore(Gama.carritosMax);
