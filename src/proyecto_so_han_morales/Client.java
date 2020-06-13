@@ -174,13 +174,14 @@ public class Client extends Thread {
 //                Interfaz.txtClientsActive.setText(Integer.toString(Gama.clientesActivos));
 //                
 //            }else{
+            SCC.release();
             System.out.println("El cliente " + this.id + " se ha retirado del supermercado y su carrito ha sido guardado.");
             Gama.clientesActivos--;
             Gama.carritos = Gama.carritos--;
             Interfaz.txtClientsActive.setText(Integer.toString(Gama.clientesActivos));
             Interfaz.txtShoppingCarts.setText(Integer.toString(Gama.carritos));
-            Gama.deseoEliminarCarritoEnUso = false;
-            JOptionPane.showMessageDialog(null, "Función eliminar reestablecida");
+            //Gama.deseoEliminarCarritoEnUso = false;
+            //JOptionPane.showMessageDialog(null, "Función eliminar reestablecida");
 
 //            }
         } catch (InterruptedException e) {

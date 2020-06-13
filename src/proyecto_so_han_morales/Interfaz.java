@@ -432,7 +432,7 @@ public class Interfaz extends javax.swing.JFrame {
 //                        
 //                    }
 //                } else {
-                gama.getSCC().acquire();
+                gama.getSCC().acquire(1);
                 Gama.carritos--;
                 Interfaz.txtShoppingCarts.setText(Integer.toString(Gama.carritos));
 
@@ -475,7 +475,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         } else {
 
-            Gama.cajeros--;
+            //Gama.cajeros--;
             
             try {
             
@@ -489,6 +489,7 @@ public class Interfaz extends javax.swing.JFrame {
             
             Gama.cashiers[Gama.cajeros].setEstatus(false);
             System.out.println("Se ha eliminado al cajero " + Gama.cajeros);
+            Gama.cajeros--;
             Interfaz.txtCashier.setText(Integer.toString(Gama.cajeros));
 
         }
