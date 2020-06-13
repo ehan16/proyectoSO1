@@ -44,9 +44,9 @@ public class Cashier extends Thread{
         try {
             
 //            if(clientesEsperando == 0){
-                
-                this.setEstatus(true);
-                
+                if(id<=Gama.cajeros){
+                    this.setEstatus(true);
+                }// De lo contrario significa que el cajero ha sido eliminado, por ello, no debe recibir mas clientes
 //            }
             
             SC.release();

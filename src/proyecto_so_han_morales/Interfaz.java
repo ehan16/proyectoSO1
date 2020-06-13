@@ -451,8 +451,9 @@ public class Interfaz extends javax.swing.JFrame {
 
         } else {
 
+            //System.out.println(Gama.cajeros + " <- cajeros antes de eliminar");
             Gama.cajeros--;
-            
+            //System.out.println(Gama.cajeros + " <- cajeros despues de eliminar");
             try {
             
                 gama.getSCCR().acquire();

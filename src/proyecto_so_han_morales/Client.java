@@ -175,7 +175,7 @@ public class Client extends Thread {
 //                
 //            }else{
             SCC.release();
-            System.out.println("El cliente " + this.id + " se ha retirado del supermercado y su carrito ha sido guardado.");
+            System.out.println("El cliente " + this.id + " se ha retirado del supermercado y ha dejado su carrito.");
             Gama.clientesActivos--;
             Gama.carritos = Gama.carritos--;
             Interfaz.txtClientsActive.setText(Integer.toString(Gama.clientesActivos));
