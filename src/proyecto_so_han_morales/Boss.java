@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 public class Boss extends Thread {
     
-    private int sleepTime = 360000;
+    private int sleepTime = 10000;
     private int elapsed = 0;
     Semaphore SHL; // Semaforo de las horas laboradas
     

@@ -376,38 +376,6 @@ public class Interfaz extends javax.swing.JFrame {
     public JButton getBtnDeleteShoppingCart() {
         return btnDeleteShoppingCart;
     }
-
-    public JTextField getTxtClientsActive() {
-        return txtClientsActive;
-    }
-
-    public void setTxtClientsActive(JTextField txtClientsActive) {
-        this.txtClientsActive = txtClientsActive;
-    }
-
-    public JTextField getTxtClientsWaiting() {
-        return txtClientsWaiting;
-    }
-
-    public void setTxtClientsWaiting(JTextField txtClientsWaiting) {
-        this.txtClientsWaiting = txtClientsWaiting;
-    }
-
-    public JTextField getTxtEarnings() {
-        return txtEarnings;
-    }
-
-    public void setTxtEarnings(JTextField txtEarnings) {
-        this.txtEarnings = txtEarnings;
-    }
-
-    public JTextField getTxtHours() {
-        return txtHours;
-    }
-
-    public void setTxtHours(JTextField txtHours) {
-        this.txtHours = txtHours;
-    }
     
     // METODOS DE LA INTERFAZ
     
@@ -454,13 +422,39 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteShoppingCartActionPerformed
 
     private void btnAddCashierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCashierActionPerformed
-        // TODO add your handling code here:
-         // Se revisa si ya se ha llegado a la cantidad maxima
+        
+        // Se revisa si ya se ha llegado a la cantidad maxima
+        if (Gama.cajeros < Gama.cajasMax) {
+            
+            Gama.cashiers[Gama.cajeros].setEstatus(true);
+            System.out.println("Se ha añadido al cajero " + Gama.cajeros);
+            Gama.cajeros++;
+            Interfaz.txtCashier.setText(Integer.toString(Gama.cajeros));
+            
+        } else {
+            
+            JOptionPane.showMessageDialog(null, "Ha alcanzado el máximo de cajeros", "ERROR", JOptionPane.ERROR_MESSAGE);
+            
+        }
+         
     }//GEN-LAST:event_btnAddCashierActionPerformed
 
     private void btnDeleteCashierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteCashierActionPerformed
-        // TODO add your handling code here:
-         // Se revisa si ya se ha llegado a la cantidad minima
+        
+        // Se revisa si ya se ha llegado a la cantidad minima
+        if (Gama.cajeros == 1) {
+            
+            JOptionPane.showMessageDialog(null, "Ha alcanzado el minimo de cajeros", "ERROR", JOptionPane.ERROR_MESSAGE);
+            
+        } else {
+            
+            Gama.cajeros--;
+            Gama.cashiers[Gama.cajeros].setEstatus(false);
+            System.out.println("Se ha eliminado al cajero " + Gama.cajeros);
+            Interfaz.txtCashier.setText(Integer.toString(Gama.cajeros));
+            
+        }
+        
     }//GEN-LAST:event_btnDeleteCashierActionPerformed
 
     private void btnAddShelfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddShelfActionPerformed

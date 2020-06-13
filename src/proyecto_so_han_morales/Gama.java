@@ -32,7 +32,7 @@ public class Gama {
     public static int[] pEE; // Apunta al estante para el empleado
     
     //Cajeros operando (Herencia de clase Semaphore)
-    Cashier[] cashiers;
+    public static Cashier[] cashiers;
     
     // Datos a mostrar en la interfaz grafica
     public static int clientes;            // Numero de clientes totales
@@ -68,7 +68,7 @@ public class Gama {
         String line = doc.nextLine();
         
         // Se procede a leer cada dato en el archivo y se guarda en su variable respectiva
-        Gama.tiempoHora = parseInt(line.substring(20, 30).trim());
+        Gama.tiempoHora = parseInt(line.substring(20, 30).trim()) * 1000;
         System.out.println(Gama.tiempoHora);
         line = doc.nextLine();
         
@@ -175,13 +175,16 @@ public class Gama {
         this.SECR = new Semaphore(Gama.cajeros);
         this.SCCR = new Semaphore(0);
         
+        // Semaforo del gerente y jefe para las horas
+        this.SHL = new Semaphore(8);
+        
         // Semaforo de los carritos totales de compra
         this.SCC = new Semaphore(Gama.carritosMax);
         // Inicialmente se dejan libres solo los carritos minimos
         this.SCC.acquire(Gama.carritosMax - Gama.carritos);
         
         // Se habilita la maxima cantidad de cajeros
-        cashiers = new Cashier[Gama.cajasMax];
+        Gama.cashiers = new Cashier[Gama.cajasMax];
         
     }
     
@@ -209,14 +212,20 @@ public class Gama {
         
         // Se inactivan los cajeros que inicialmente no estaran operando
         // Y el resto quedan activos
-        for (int i = 0; i<Gama.cajasMax; i++){
-            if ( i != Gama.cajeros){
-                cashiers[i] = new Cashier();
+        for (int i = 0; i < Gama.cajasMax; i++){
+            
+            if ( i < Gama.cajeros){
+                
+                Gama.cashiers[i] = new Cashier();
+                
             }else{
-                cashiers[i] = new Cashier();
-                cashiers[i].setEstatus(false);
-                cashiers[i].inactivarCajero();
+               
+                Gama.cashiers[i] = new Cashier();
+                Gama.cashiers[i].setEstatus(false);
+                Gama.cashiers[i].inactivarCajero();
+                
             }
+            
         }
         
     }
@@ -242,16 +251,12 @@ public class Gama {
             case 1: 
                 
                 // Se crea un cliente
-                Client c = new Client(SEME, SEE, SCE, SEMCR, SECR, SCCR, SCC, idC, cashiers);
+                Client c = new Client(SEME, SEE, SCE, SEMCR, SECR, SCCR, SCC, idC);
                 cliente.add(c);
                 idC++;
                 c.start();
                 break;
-                
-            case 2:
-                
-                break;
-                
+
             default:
                 break;
             
@@ -282,10 +287,13 @@ public class Gama {
             
         }
         
-        // los hilos de los cajeros
+        // los hilos del jefe y gerente
+        Boss b = new Boss(Gama.tiempoHora, this.SHL);
+        b.start();
         
-        
-        
+        Manager m = new Manager(this.SHL);
+        m.start();
+
         while (true) {
             
             // Se crean los hilos de los clientes de manera indefinida cada 5 min

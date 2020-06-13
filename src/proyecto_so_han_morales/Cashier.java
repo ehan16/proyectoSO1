@@ -7,18 +7,12 @@ package proyecto_so_han_morales;
 
 import java.util.concurrent.Semaphore;
 
-/**
- *
- * @author EH
- */
+
 public class Cashier extends Thread{
     
-    private boolean estatus = true; //Variable que permite identificar si el
-                                    //Cashier o cajero esta ocupado
-    private int clientesEsperando = 0; //Variable que identifica cuantos clientes
-                                        //estan haciendo cola en el cajero 
+    private boolean estatus = true; //Variable que permite identificar si el cajero esta ocupado
+    private int clientesEsperando = 0; //Variable que identifica cuantos clientes estan haciendo cola en el cajero 
     private Semaphore SC = new Semaphore(1);
-    
     
     public Cashier() {
         

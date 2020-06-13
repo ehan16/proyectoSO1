@@ -19,15 +19,12 @@ public class Client extends Thread{
     private final Semaphore SCCR;  // Clientes de las cajas registradoras
     private final Semaphore SCC;   // De los carritos de compra
     
-    // Declaracion de los cajeros (Extension de semaforos):
-    private final Cashier[] cashiers;
-    
     private final int id;
     private int productos = 0;
     private int monto = 0;
     private boolean activo = true; // Para saber si esta dentro del sistema
 
-    public Client(Semaphore[] SEME, Semaphore[] SEE, Semaphore[] SCE, Semaphore SEMCR, Semaphore SECR, Semaphore SCCR, Semaphore SCC, int id, Cashier[] cashiers) {
+    public Client(Semaphore[] SEME, Semaphore[] SEE, Semaphore[] SCE, Semaphore SEMCR, Semaphore SECR, Semaphore SCCR, Semaphore SCC, int id) {
         this.SEME = SEME;
         this.SEE = SEE;
         this.SCE = SCE;
@@ -36,7 +33,6 @@ public class Client extends Thread{
         this.SCCR = SCCR;
         this.SCC = SCC;
         this.id = id;
-        this.cashiers = cashiers;
     }
     
     /*
@@ -130,16 +126,16 @@ public class Client extends Thread{
             int clientesEnLaCola = 999;
             for(int i = 0; i < Gama.cajeros; i++){
                     
-                if(cashiers[i].getEstatus() == true){
+                if(Gama.cashiers[i].getEstatus() == true){
                 
                     cajeroConMenorCola = i;
                     break;
                     
                 } else {
                 
-                    if(cashiers[i].getClientesEsperando()<clientesEnLaCola){
+                    if(Gama.cashiers[i].getClientesEsperando() < clientesEnLaCola){
                     
-                        clientesEnLaCola = cashiers[i].getClientesEsperando();
+                        clientesEnLaCola = Gama.cashiers[i].getClientesEsperando();
                         cajeroConMenorCola = i;
                     
                     }
@@ -147,7 +143,7 @@ public class Client extends Thread{
                     if(i == Gama.cajeros-1){
 
                         //Quiere decir que todos los cajeros estan ocupados
-                        cashiers[cajeroConMenorCola].setClientesEsperando(cashiers[cajeroConMenorCola].getClientesEsperando()+1);
+                        Gama.cashiers[cajeroConMenorCola].setClientesEsperando(Gama.cashiers[cajeroConMenorCola].getClientesEsperando()+1);
                         
                     }
                     
@@ -155,7 +151,7 @@ public class Client extends Thread{
                 
             }
                 
-            this.colocarTotalProductos(cashiers[cajeroConMenorCola], productos, cajeroConMenorCola+1);
+            this.colocarTotalProductos(Gama.cashiers[cajeroConMenorCola], productos, cajeroConMenorCola+1);
                 
             // Se suma lo que consumio el cliente con las ganancias
             Gama.ganancias += monto;
@@ -181,10 +177,12 @@ public class Client extends Thread{
         System.out.println("El cliente " + id + " ha elegido la caja registradora " + idCajero);
         
         for(int i = 0; i<productos; i++){
+            
             cashier.atenderCliente();
             Thread.sleep(1000/2);//Tiempo que tarda en sacar un producto y colocarlo en el mostrador
             System.out.println("El cliente " + id + " ha colocado un producto sobre el cajero " + idCajero);
             cashier.procesarProducto(idCajero);
+            
         }
         cashier.despacharCliente();
         
