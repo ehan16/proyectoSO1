@@ -9,16 +9,10 @@ import java.io.FileNotFoundException;
  */
 public class Aplicacion {
 
-    /**
-     * @param args the command line arguments
-     * @throws java.io.FileNotFoundException
-     * @throws java.lang.InterruptedException
-     */
-    public static void main(String[] args) throws FileNotFoundException, InterruptedException {
+    public static void main(String[] args) throws FileNotFoundException, InterruptedException{
         
         //prueba git
         Interfaz vista = new Interfaz();
-        vista.setVisible(true);
         
     }
     

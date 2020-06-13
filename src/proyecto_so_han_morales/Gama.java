@@ -22,14 +22,19 @@ public class Gama {
     public static int cajasMax;      // Maximo de cajas
     public static int carritosMax;   // Maximo de carritos
     
+    public static boolean deseoEliminarCarritoEnUso = false;
+    
     // Semaforos (EM = exclusion mutua, C = cliente, E = empleado)
     private Semaphore[] SEME, SCE, SEE;  // Semaforos de los estantes
     private Semaphore SCC;               // Semaforo del carrito de compras
-    private Semaphore SEMCR, SCCR, SECR; // Semaforo de las cajas registradoras
+    private Semaphore SEMCR, SCCR; // Semaforo de las cajas registradoras
     private Semaphore SHL;               // Semaforo de las horas laboradas
+    private Semaphore SEG;               // Semaforo de exclusion para leer y editar las ganancias
+    public static Semaphore sControlEliminaciones = new Semaphore(1); // Semaforo control de eliminaciones
     
-    public static int[] pCE; // Apunta al estante para el cliente
-    public static int[] pEE; // Apunta al estante para el empleado
+    public static int[] pCE;    // Apunta al estante para el cliente
+    public static int[] pEE;    // Apunta al estante para el empleado
+    public static int pCR = 0;  // Apunta a la caja registradora disponible
     
     //Cajeros operando (Herencia de clase Semaphore)
     public static Cashier[] cashiers;
@@ -46,20 +51,16 @@ public class Gama {
     
     private int idC = 1;   // Se utilizara para el id de los clientes
     private int idE = 1;    // Se utilizara para el id de los empleados
-    private Gama gama;
-    private Manager gerente;
-//    private boolean open = true;
     
     // CONSTRUCTOR DE LA CLASE 
     
     public Gama() {
+
     }
     
     // METODOS DE LA CLASE
     
-    /*
-     * Metodo para leer los datos iniciales del archivo de texto
-     */
+    // Metodo para leer los datos iniciales del archivo de texto
     public void leerDatosIniciales() throws FileNotFoundException {
         
         System.out.println();
@@ -75,7 +76,7 @@ public class Gama {
         // Se tiene que verificar la validez de cada dato y corregirla de ser necesario
         if(Gama.tiempoHora < 0){
             JOptionPane.showMessageDialog(null, "Dato invalido");  
-            tiempoHora = 100000;
+            tiempoHora = 360000;
         }
         
         Gama.estantes = parseInt(line.substring(20, 25).trim());
@@ -142,9 +143,7 @@ public class Gama {
 
     }
     
-    /*
-     * Metodo que crea los semaforos
-    */
+    // Metodo que crea los semaforos
     public void CrearSemaforos() throws InterruptedException {
         
         // Semaforos de los estantes
@@ -172,11 +171,14 @@ public class Gama {
         
         // Semaforos de las cajas registradoras
         this.SEMCR = new Semaphore(1);
-        this.SECR = new Semaphore(Gama.cajeros);
-        this.SCCR = new Semaphore(0);
+//        this.SECR = new Semaphore(Gama.cajeros);
+        this.SCCR = new Semaphore(Gama.cajeros);
         
         // Semaforo del gerente y jefe para las horas
         this.SHL = new Semaphore(0);
+        
+        // Semaforo para la lectura y edicion de las ganancias
+        this.SEG = new Semaphore(1);
         
         // Semaforo de los carritos totales de compra
         this.SCC = new Semaphore(Gama.carritosMax);
@@ -188,10 +190,7 @@ public class Gama {
         
     }
     
-    
-    /*
-     *  Metodo para inicializar los apuntadores y estantes
-    */
+    // Metodo para inicializar los apuntadores y estantes
     public void inicializarValores() throws InterruptedException {
         
         // Se crean los estantes iniciales
@@ -216,12 +215,11 @@ public class Gama {
             
             if ( i < Gama.cajeros){
                 
-                Gama.cashiers[i] = new Cashier();
+                Gama.cashiers[i] = new Cashier(this.SEG, this.SCCR);
                 
             }else{
                
-                Gama.cashiers[i] = new Cashier();
-                Gama.cashiers[i].setEstatus(false);
+                Gama.cashiers[i] = new Cashier(this.SEG, this.SCCR);
                 Gama.cashiers[i].inactivarCajero();
                 
             }
@@ -231,9 +229,7 @@ public class Gama {
     }
     
     
-    /*
-     *  Metodo para crear hilos
-    */
+    // Metodo para crear hilos
     public void crearHilo(int tipo, int numEstante) {
         
         switch(tipo) {
@@ -251,8 +247,9 @@ public class Gama {
             case 1: 
                 
                 // Se crea un cliente
-                Client c = new Client(SEME, SEE, SCE, SEMCR, SECR, SCCR, SCC, idC);
+                Client c = new Client(SEME, SEE, SCE, SEMCR, SCCR, SCC, idC);
                 cliente.add(c);
+                System.out.println("El cliente " + idC + " se encuentra fuera de las instalaciones del Gama.");
                 idC++;
                 c.start();
                 break;
@@ -264,9 +261,7 @@ public class Gama {
         
     }
     
-    /*
-     * Metodo para iniciar el simulador
-    */
+    // Metodo para iniciar el simulador
     public void Start() throws FileNotFoundException, InterruptedException{
         
         this.leerDatosIniciales();
@@ -298,7 +293,7 @@ public class Gama {
             
             // Se crean los hilos de los clientes de manera indefinida cada 5 min
             crearHilo(1, 0);
-            Thread.sleep(300 * 1000);
+            Thread.sleep((5*Gama.tiempoHora)/60);
             
         }
         
@@ -353,30 +348,6 @@ public class Gama {
 
     public void setSCCR(Semaphore SCCR) {
         this.SCCR = SCCR;
-    }
-
-    public Semaphore getSECR() {
-        return SECR;
-    }
-
-    public void setSECR(Semaphore SECR) {
-        this.SECR = SECR;
-    }
-
-    public Gama getGama() {
-        return gama;
-    }
-
-    public void setGama(Gama gama) {
-        this.gama = gama;
-    }
-
-    public Manager getGerente() {
-        return gerente;
-    }
-
-    public void setGerente(Manager gerente) {
-        this.gerente = gerente;
     }
 
     public int getpCE(int index) {

@@ -1,4 +1,4 @@
-tiempoHora:         60           
+tiempoHora:         360          
 estantesIni:        1    
 estantesMax:        3    
 capacidadMax:       10   

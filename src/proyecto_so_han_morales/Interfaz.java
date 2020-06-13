@@ -1,4 +1,3 @@
-
 package proyecto_so_han_morales;
 
 import java.io.FileNotFoundException;
@@ -6,21 +5,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-
 
 public class Interfaz extends javax.swing.JFrame {
-    
+
     Gama gama;
-    
+
     public Interfaz() throws FileNotFoundException, InterruptedException {
-        
+
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        this.setVisible(true);
         gama = new Gama();
         gama.Start();
-        
     }
 
     @SuppressWarnings("unchecked")
@@ -356,7 +353,6 @@ public class Interfaz extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // GETTERS Y SETTERS
-    
     public JButton getBtnAddCashier() {
         return btnAddCashier;
     }
@@ -376,109 +372,141 @@ public class Interfaz extends javax.swing.JFrame {
     public JButton getBtnDeleteShoppingCart() {
         return btnDeleteShoppingCart;
     }
-    
+
     // METODOS DE LA INTERFAZ
-    
+
     private void btnAddShoppingCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddShoppingCartActionPerformed
-        
+
         // Se revisa si ya se ha llegado a la cantidad maxima
         if (Gama.carritos < Gama.carritosMax) {
-           
+
             gama.getSCC().release(); // Se aumenta un permiso al semaforo de carritos
             Gama.carritos++;
             Interfaz.txtShoppingCarts.setText(Integer.toString(Gama.carritos));
-            
+
         } else {
-            
+
             JOptionPane.showMessageDialog(null, "Ha alcanzado el máximo de carritos", "ERROR", JOptionPane.ERROR_MESSAGE);
-            
+
         }
-        
+
     }//GEN-LAST:event_btnAddShoppingCartActionPerformed
 
     private void btnDeleteShoppingCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteShoppingCartActionPerformed
-      
+
         // Se revisa si ya se ha llegado a la cantidad minima
-        if (Gama.carritos == 1) {
-             
-            JOptionPane.showMessageDialog(null, "Ha alcanzado el mínimo de carritos", "ERROR", JOptionPane.ERROR_MESSAGE);
-             
+//        if (Gama.carritos == 1) {
+//             
+//            JOptionPane.showMessageDialog(null, "Ha alcanzado el mínimo de carritos", "ERROR", JOptionPane.ERROR_MESSAGE);
+//             
+//        } else {
+        if (Gama.carritos == Gama.clientesActivos) {
+
+            JOptionPane.showMessageDialog(null, "Ha alcanzado el mínimo de carritos que se pueden eliminar", "ERROR", JOptionPane.ERROR_MESSAGE);
+
         } else {
-             
+
             try {
-                
+
+//                if(Gama.carritos == Gama.clientesActivos){
+//                    
+//                    if(!Gama.deseoEliminarCarritoEnUso){//Si no hay carritos pendientes por eliminar
+//                        
+//                        Gama.deseoEliminarCarritoEnUso = true;
+//                        JOptionPane.showMessageDialog(null, "Esta tratando de eliminar un carrito que esta en uso "
+//                                + ", su acción será tomada en cuenta, pero debe esperar hasta que el cliente salga."
+//                                + " Hasta entonces, la función eliminar estará suspendida.", "Error", JOptionPane.ERROR_MESSAGE);
+////                        btnDeleteShoppingCart.setEnabled(false);
+////                        try{
+////                            Gama.sControlEliminaciones.acquire();
+////                            Gama.carritos = Gama.carritos--;
+////                            btnDeleteShoppingCart.setEnabled(true);
+//                            //Gama.sControlEliminaciones.release();
+////                        }catch(Exception ex){
+////                            System.out.println("Error " + ex);
+////                        }
+//
+//                    } else {
+//                        
+//                        JOptionPane.showMessageDialog(null, "Ya hay una eliminacion pendiente");
+//                        
+//                    }
+//                } else {
                 gama.getSCC().acquire();
                 Gama.carritos--;
                 Interfaz.txtShoppingCarts.setText(Integer.toString(Gama.carritos));
-                
-            } catch (InterruptedException ex) {
-                
+
+//                }
+            } catch (Exception ex) {
+
                 Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-                
+
             }
-             
+
         }
-         
+
     }//GEN-LAST:event_btnDeleteShoppingCartActionPerformed
 
     private void btnAddCashierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCashierActionPerformed
-        
+
         // Se revisa si ya se ha llegado a la cantidad maxima
         if (Gama.cajeros < Gama.cajasMax) {
-            
+
             Gama.cashiers[Gama.cajeros].setEstatus(true);
             System.out.println("Se ha añadido al cajero " + Gama.cajeros);
             Gama.cajeros++;
             Interfaz.txtCashier.setText(Integer.toString(Gama.cajeros));
-            
+
         } else {
-            
+
             JOptionPane.showMessageDialog(null, "Ha alcanzado el máximo de cajeros", "ERROR", JOptionPane.ERROR_MESSAGE);
-            
+
         }
-         
+
     }//GEN-LAST:event_btnAddCashierActionPerformed
 
     private void btnDeleteCashierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteCashierActionPerformed
-        
+
         // Se revisa si ya se ha llegado a la cantidad minima
         if (Gama.cajeros == 1) {
-            
+
             JOptionPane.showMessageDialog(null, "Ha alcanzado el minimo de cajeros", "ERROR", JOptionPane.ERROR_MESSAGE);
-            
+
         } else {
-            
+
             Gama.cajeros--;
             Gama.cashiers[Gama.cajeros].setEstatus(false);
             System.out.println("Se ha eliminado al cajero " + Gama.cajeros);
             Interfaz.txtCashier.setText(Integer.toString(Gama.cajeros));
-            
+
         }
-        
+
     }//GEN-LAST:event_btnDeleteCashierActionPerformed
 
     private void btnAddShelfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddShelfActionPerformed
-       
+
         // Se revisa si ya se ha llegado a la cantidad maxima
         if (Gama.estantes < Gama.estantesMax) {
-            
+
             // Buscamos la posicion de donde podemos colocar el nuevo estante y se crea
             int aux = Gama.estantes;
             Gama.estante[aux] = new Shelf(Gama.capacidadMax, aux + 1);
             System.out.println("Se ha añadido el estante " + (aux + 1));
-            
+
+            Gama.estantes++;
+            Interfaz.txtShelf.setText(Integer.toString(Gama.estantes));
             // Ahora se crea el empleado que se hara cargo de ese estante
             // y se le asigna los semaforos de ese estante
             gama.crearHilo(0, aux);
-            
+
         } else {
-            
+
             JOptionPane.showMessageDialog(null, "Ha alcanzado el máximo de estantes", "ERROR", JOptionPane.ERROR_MESSAGE);
-            
+
         }
-       
+
     }//GEN-LAST:event_btnAddShelfActionPerformed
-        
+
     private void txtClientsActiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClientsActiveActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtClientsActiveActionPerformed
@@ -507,7 +535,7 @@ public class Interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtHoursActionPerformed
 
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddCashier;
     private javax.swing.JButton btnAddShelf;

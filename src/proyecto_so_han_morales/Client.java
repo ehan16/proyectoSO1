@@ -3,6 +3,7 @@ package proyecto_so_han_morales;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class Client extends Thread{
     
@@ -15,7 +16,7 @@ public class Client extends Thread{
     private final Semaphore[] SEE;   // Empleados de los estantes
     private final Semaphore[] SCE;   // Clientes de los estantes
     private final Semaphore SEMCR; // Exclusion mutua de las cajas registradoras
-    private final Semaphore SECR;  // Empleados de las cajas registradoras 
+//    private final Semaphore SECR;  // Empleados de las cajas registradoras 
     private final Semaphore SCCR;  // Clientes de las cajas registradoras
     private final Semaphore SCC;   // De los carritos de compra
     
@@ -23,13 +24,14 @@ public class Client extends Thread{
     private int productos = 0;
     private int monto = 0;
     private boolean activo = true; // Para saber si esta dentro del sistema
+    private boolean eliminarCarrito = false;
 
-    public Client(Semaphore[] SEME, Semaphore[] SEE, Semaphore[] SCE, Semaphore SEMCR, Semaphore SECR, Semaphore SCCR, Semaphore SCC, int id) {
+    public Client(Semaphore[] SEME, Semaphore[] SEE, Semaphore[] SCE, Semaphore SEMCR, Semaphore SCCR, Semaphore SCC, int id) {
         this.SEME = SEME;
         this.SEE = SEE;
         this.SCE = SCE;
         this.SEMCR = SEMCR;
-        this.SECR = SECR;
+//        this.SECR = SECR;
         this.SCCR = SCCR;
         this.SCC = SCC;
         this.id = id;
@@ -67,8 +69,9 @@ public class Client extends Thread{
 
                     // Los cinco minutos que tarda en llegar al estante
                     //this.sleep(300*1000);
-                    this.sleep(60*1000);
-                    System.out.println("El cliente " + this.id + " ha llegado al estante " + Gama.estante[i].getId());
+                    this.sleep((5*Gama.tiempoHora)/60);
+                    System.out.println("El cliente " + this.id + " ha llegado al estante " + Gama.estante[i].getId() + " , "
+                            + "esta observando para entrar");
 
                     // Verifica si existen productos en el estante
                     int productosDisponibles = SCE[i].availablePermits();
@@ -92,11 +95,11 @@ public class Client extends Thread{
                         
                     // Seccion critica
                     this.SEME[i].acquire();
-                    System.out.println("El cliente " + id + " se encuentra buscando productos en el estante");
+                    System.out.println("El cliente " + id + " se encuentra buscando productos en el estante " + Gama.estante[i].getId());
                 
                     // El cliente tarda un minuto en adquirir todos sus productos
                     //this.sleep(60 * 1000);
-                    this.sleep(30*1000);
+                    this.sleep(Gama.tiempoHora/60);
                     productos += productosComprar;
                         
                     for (int j = 0; j < productosComprar; j++) {
@@ -120,8 +123,12 @@ public class Client extends Thread{
             }
                     
             // Ya con todos los productos, se dirige a la caja registradora
-            // Pero debe elegir la caja Registradora mas cercana o mas 
-            // conveniente
+            // Pero debe elegir la caja registradora mas cercana o mas conveniente
+//            this.SCCR.acquire();
+            
+            // Se mueve el apuntador al proximo cajero disponible
+//            Gama.pCR = (Gama.pCR + 1) % Gama.cajeros;
+            
             int cajeroConMenorCola = 0;
             int clientesEnLaCola = 999;
             for(int i = 0; i < Gama.cajeros; i++){
@@ -140,7 +147,7 @@ public class Client extends Thread{
                     
                     }
                     
-                    if(i == Gama.cajeros-1){
+                    if(i == Gama.cajeros - 1){
 
                         //Quiere decir que todos los cajeros estan ocupados
                         Gama.cashiers[cajeroConMenorCola].setClientesEsperando(Gama.cashiers[cajeroConMenorCola].getClientesEsperando()+1);
@@ -150,19 +157,36 @@ public class Client extends Thread{
                 }
                 
             }
+
+            
                 
-            this.colocarTotalProductos(Gama.cashiers[cajeroConMenorCola], productos, cajeroConMenorCola+1);
+            this.colocarTotalProductos(Gama.cashiers[cajeroConMenorCola], productos, cajeroConMenorCola + 1);
+//            this.colocarTotalProductos(Gama.cashiers[Gama.pCR], productos, Gama.pCR + 1);
                 
-            // Se suma lo que consumio el cliente con las ganancias
-            Gama.ganancias += monto;
-            Interfaz.txtEarnings.setText(Integer.toString(Gama.ganancias));
+//            // Se suma lo que consumio el cliente con las ganancias
+//            Gama.ganancias += monto;
+//            Interfaz.txtEarnings.setText(Integer.toString(Gama.ganancias));
 
             // Seccion de salida
-            SCC.release();
-            System.out.println("El cliente " + this.id + " se ha retirado del supermercado");
-            Gama.clientesActivos--;
-            Interfaz.txtClientsActive.setText(Integer.toString(Gama.clientesActivos));
-
+//            if(!Gama.deseoEliminarCarritoEnUso){
+//                
+//                SCC.release();
+//                System.out.println("El cliente " + this.id + " se ha retirado del supermercado");
+//                Gama.clientesActivos--;
+//                Interfaz.txtClientsActive.setText(Integer.toString(Gama.clientesActivos));
+//                
+//            }else{
+                
+                System.out.println("El cliente " + this.id + " se ha retirado del supermercado y su carrito ha sido guardado.");
+                Gama.clientesActivos--;
+                Gama.carritos = Gama.carritos--;
+                Interfaz.txtClientsActive.setText(Integer.toString(Gama.clientesActivos));
+                Interfaz.txtShoppingCarts.setText(Integer.toString(Gama.carritos));
+                Gama.deseoEliminarCarritoEnUso = false;
+                JOptionPane.showMessageDialog(null, "Función eliminar reestablecida");
+                
+//            }
+            
         } catch (InterruptedException e) {
 
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, e);
@@ -176,15 +200,16 @@ public class Client extends Thread{
         
         System.out.println("El cliente " + id + " ha elegido la caja registradora " + idCajero);
         
-        for(int i = 0; i<productos; i++){
+        for(int i = 0; i < productos; i++){
             
             cashier.atenderCliente();
-            Thread.sleep(1000/2);//Tiempo que tarda en sacar un producto y colocarlo en el mostrador
+            this.sleep(Gama.tiempoHora/(2*60));//Tiempo que tarda cliente en sacar un producto y colocarlo en el mostrador
             System.out.println("El cliente " + id + " ha colocado un producto sobre el cajero " + idCajero);
             cashier.procesarProducto(idCajero);
             
         }
-        cashier.despacharCliente();
+        
+        cashier.despacharCliente(idCajero, monto);
         
     }
     
@@ -212,6 +237,14 @@ public class Client extends Thread{
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    public boolean isEliminarCarrito() {
+        return eliminarCarrito;
+    }
+
+    public void setEliminarCarrito(boolean eliminarCarrito) {
+        this.eliminarCarrito = eliminarCarrito;
     }
     
 }

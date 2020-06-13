@@ -41,11 +41,11 @@ public class Employee extends Thread {
                 System.out.println("El empleado " + id +" se dirige al estante!");
 
                 //this.sleep(240*1000); // Tiempo que tarda buscando la caja para llevarla al estante
-                this.sleep(50*1000);
+                this.sleep((4*Gama.tiempoHora)/60);
 
                 SEME.acquire();//Adquiere el permiso total del estante
                 System.out.println("El empleado " + id + " se encuentra en el estante");
-                this.sleep(60*1000);//Tiempo que tarda en colocar los productos en el estante
+                this.sleep(Gama.tiempoHora/60);//Tiempo que tarda en colocar los productos en el estante
                 
                 for (int i = 0; i < 3; i++) {
                             
