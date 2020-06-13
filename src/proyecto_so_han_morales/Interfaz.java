@@ -437,7 +437,7 @@ public class Interfaz extends javax.swing.JFrame {
                 Interfaz.txtShoppingCarts.setText(Integer.toString(Gama.carritos));
 
 //                }
-            } catch (Exception ex) {
+            } catch (InterruptedException ex) {
 
                 Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
 
@@ -455,6 +455,7 @@ public class Interfaz extends javax.swing.JFrame {
             Gama.cashiers[Gama.cajeros].setEstatus(true);
             System.out.println("Se ha añadido al cajero " + Gama.cajeros);
             Gama.cajeros++;
+            gama.getSCCR().release();
             Interfaz.txtCashier.setText(Integer.toString(Gama.cajeros));
 
         } else {
@@ -475,6 +476,17 @@ public class Interfaz extends javax.swing.JFrame {
         } else {
 
             Gama.cajeros--;
+            
+            try {
+            
+                gama.getSCCR().acquire();
+                
+            } catch (InterruptedException ex) {
+                
+                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                
+            }
+            
             Gama.cashiers[Gama.cajeros].setEstatus(false);
             System.out.println("Se ha eliminado al cajero " + Gama.cajeros);
             Interfaz.txtCashier.setText(Integer.toString(Gama.cajeros));

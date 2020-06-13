@@ -27,7 +27,7 @@ public class Gama {
     // Semaforos (EM = exclusion mutua, C = cliente, E = empleado)
     private Semaphore[] SEME, SCE, SEE;  // Semaforos de los estantes
     private Semaphore SCC;               // Semaforo del carrito de compras
-    private Semaphore SEMCR, SCCR; // Semaforo de las cajas registradoras
+    private Semaphore SCCR;              // Semaforo de las cajas registradoras
     private Semaphore SHL;               // Semaforo de las horas laboradas
     private Semaphore SEG;               // Semaforo de exclusion para leer y editar las ganancias
     public static Semaphore sControlEliminaciones = new Semaphore(1); // Semaforo control de eliminaciones
@@ -170,8 +170,6 @@ public class Gama {
         }
         
         // Semaforos de las cajas registradoras
-        this.SEMCR = new Semaphore(1);
-//        this.SECR = new Semaphore(Gama.cajeros);
         this.SCCR = new Semaphore(Gama.cajeros);
         
         // Semaforo del gerente y jefe para las horas
@@ -247,7 +245,7 @@ public class Gama {
             case 1: 
                 
                 // Se crea un cliente
-                Client c = new Client(SEME, SEE, SCE, SEMCR, SCCR, SCC, idC);
+                Client c = new Client(SEME, SEE, SCE, SCCR, SCC, idC);
                 cliente.add(c);
                 System.out.println("El cliente " + idC + " se encuentra fuera de las instalaciones del Gama.");
                 idC++;
@@ -332,14 +330,6 @@ public class Gama {
 
     public void setSCC(Semaphore SCC) {
         this.SCC = SCC;
-    }
-
-    public Semaphore getSEMCR() {
-        return SEMCR;
-    }
-
-    public void setSEMCR(Semaphore SEMCR) {
-        this.SEMCR = SEMCR;
     }
 
     public Semaphore getSCCR() {

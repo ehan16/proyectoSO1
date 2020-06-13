@@ -32,10 +32,10 @@ public class Cashier extends Thread{
     
     public void atenderCliente() throws InterruptedException{
         
-        this.clientesEsperando = this.clientesEsperando + 1;
+//        this.clientesEsperando = this.clientesEsperando + 1;
         SC.acquire();
         this.setEstatus(false);
-        this.clientesEsperando = this.clientesEsperando - 1;
+//        this.clientesEsperando = this.clientesEsperando - 1;
         
     }
     
@@ -43,17 +43,17 @@ public class Cashier extends Thread{
         
         try {
             
-            if(clientesEsperando == 0){
+//            if(clientesEsperando == 0){
                 
                 this.setEstatus(true);
                 
-            }
+//            }
             
             SC.release();
             System.out.println("El cajero " + id + " ha despachado a un cliente!");
             
             // Permite que otro cliente pase a los cajeros
-//            SCCR.release();
+            SCCR.release();
             
             // El cajero solicita editar las ganancias
             this.SEG.acquire();
@@ -98,6 +98,13 @@ public class Cashier extends Thread{
     public void setClientesEsperando(int clientesEsperando) {
         this.clientesEsperando = clientesEsperando;
     }
-    
+
+    public Semaphore getSC() {
+        return SC;
+    }
+
+    public void setSC(Semaphore SC) {
+        this.SC = SC;
+    }
 
 }
