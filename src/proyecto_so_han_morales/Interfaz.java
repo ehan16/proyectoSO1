@@ -1,6 +1,7 @@
 
 package proyecto_so_han_morales;
 
+import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -12,12 +13,13 @@ public class Interfaz extends javax.swing.JFrame {
     
     Gama gama;
     
-    public Interfaz() {
+    public Interfaz() throws FileNotFoundException, InterruptedException {
         
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         gama = new Gama();
+        gama.Start();
         
     }
 
@@ -149,6 +151,8 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        txtClientsActive.setBackground(new java.awt.Color(255, 255, 255));
+        txtClientsActive.setForeground(new java.awt.Color(0, 0, 0));
         txtClientsActive.setText("0");
         txtClientsActive.setEnabled(false);
         txtClientsActive.addActionListener(new java.awt.event.ActionListener() {
@@ -157,6 +161,8 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        txtClientsWaiting.setBackground(new java.awt.Color(255, 255, 255));
+        txtClientsWaiting.setForeground(new java.awt.Color(0, 0, 0));
         txtClientsWaiting.setText("0");
         txtClientsWaiting.setEnabled(false);
         txtClientsWaiting.addActionListener(new java.awt.event.ActionListener() {
@@ -165,6 +171,8 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        txtShelf.setBackground(new java.awt.Color(255, 255, 255));
+        txtShelf.setForeground(new java.awt.Color(0, 0, 0));
         txtShelf.setText("0");
         txtShelf.setEnabled(false);
         txtShelf.addActionListener(new java.awt.event.ActionListener() {
@@ -173,6 +181,8 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        txtShoppingCarts.setBackground(new java.awt.Color(255, 255, 255));
+        txtShoppingCarts.setForeground(new java.awt.Color(0, 0, 0));
         txtShoppingCarts.setText("0");
         txtShoppingCarts.setEnabled(false);
         txtShoppingCarts.addActionListener(new java.awt.event.ActionListener() {
@@ -181,6 +191,8 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        txtCashier.setBackground(new java.awt.Color(255, 255, 255));
+        txtCashier.setForeground(new java.awt.Color(0, 0, 0));
         txtCashier.setText("0");
         txtCashier.setEnabled(false);
         txtCashier.addActionListener(new java.awt.event.ActionListener() {
@@ -189,6 +201,8 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        txtEarnings.setBackground(new java.awt.Color(255, 255, 255));
+        txtEarnings.setForeground(new java.awt.Color(0, 0, 0));
         txtEarnings.setText("0");
         txtEarnings.setEnabled(false);
         txtEarnings.addActionListener(new java.awt.event.ActionListener() {
@@ -197,6 +211,8 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
+        txtHours.setBackground(new java.awt.Color(255, 255, 255));
+        txtHours.setForeground(new java.awt.Color(0, 0, 0));
         txtHours.setText("0");
         txtHours.setEnabled(false);
         txtHours.addActionListener(new java.awt.event.ActionListener() {
@@ -402,7 +418,7 @@ public class Interfaz extends javax.swing.JFrame {
            
             gama.getSCC().release(); // Se aumenta un permiso al semaforo de carritos
             Gama.carritos++;
-            this.txtShoppingCarts.setText(Integer.toString(Gama.carritos));
+            Interfaz.txtShoppingCarts.setText(Integer.toString(Gama.carritos));
             
         } else {
             
@@ -425,7 +441,7 @@ public class Interfaz extends javax.swing.JFrame {
                 
                 gama.getSCC().acquire();
                 Gama.carritos--;
-                this.txtShoppingCarts.setText(Integer.toString(Gama.carritos));
+                Interfaz.txtShoppingCarts.setText(Integer.toString(Gama.carritos));
                 
             } catch (InterruptedException ex) {
                 
@@ -455,11 +471,11 @@ public class Interfaz extends javax.swing.JFrame {
             // Buscamos la posicion de donde podemos colocar el nuevo estante y se crea
             int aux = Gama.estantes;
             Gama.estante[aux] = new Shelf(Gama.capacidadMax, aux + 1);
+            System.out.println("Se ha añadido el estante " + (aux + 1));
             
             // Ahora se crea el empleado que se hara cargo de ese estante
             // y se le asigna los semaforos de ese estante
-            Employee e = new Employee();
-            e.start();
+            gama.crearHilo(0, aux);
             
         } else {
             
@@ -520,8 +536,8 @@ public class Interfaz extends javax.swing.JFrame {
     public static javax.swing.JTextField txtCashier;
     private javax.swing.JTextField txtClientsActive;
     private javax.swing.JTextField txtClientsWaiting;
-    private javax.swing.JTextField txtEarnings;
-    private javax.swing.JTextField txtHours;
+    public static javax.swing.JTextField txtEarnings;
+    public static javax.swing.JTextField txtHours;
     public static javax.swing.JTextField txtShelf;
     public static javax.swing.JTextField txtShoppingCarts;
     // End of variables declaration//GEN-END:variables

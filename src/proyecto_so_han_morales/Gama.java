@@ -26,6 +26,7 @@ public class Gama {
     private Semaphore[] SEME, SCE, SEE;  // Semaforos de los estantes
     private Semaphore SCC;               // Semaforo del carrito de compras
     private Semaphore SEMCR, SCCR, SECR; // Semaforo de las cajas registradoras
+    private Semaphore SHL;               // Semaforo de las horas laboradas
     
     public static int[] pCE; // Apunta al estante para el cliente
     public static int[] pEE; // Apunta al estante para el empleado
@@ -40,7 +41,8 @@ public class Gama {
     public static int horasLaboradas = 0;  // Contador de las horas que se han cursado en el dia
     public static int ganancias = 0;       // Contador de las ganancias
     
-    private int cont = 1;   // Se utilizara para el id de los clientes
+    private int idC = 1;   // Se utilizara para el id de los clientes
+    private int idE = 1;    // Se utilizara para el id de los empleados
     private Gama gama;
     private Manager gerente;
 //    private boolean open = true;
@@ -57,7 +59,9 @@ public class Gama {
      */
     public void leerDatosIniciales() throws FileNotFoundException {
         
-        Scanner doc = new Scanner(new File("DatosIniciales.txt"));
+        System.out.println();
+        //Scanner doc = new Scanner(new File("/DatosIniciales.txt"));
+        Scanner doc = new Scanner(new File("src/proyecto_SO_Han_Morales/DatosIniciales.txt"));
         String line = doc.nextLine();
         
         // Se procede a leer cada dato en el archivo y se guarda en su variable respectiva
@@ -146,6 +150,9 @@ public class Gama {
         SEME = new Semaphore[Gama.estantesMax];
         SEE = new Semaphore[Gama.estantesMax];
         SCE = new Semaphore[Gama.estantesMax];
+        pCE = new int[Gama.estantesMax];
+        pEE = new int[Gama.estantesMax];
+        
         
         // Se crean todos los semaforos
         for (int i = 0; i < SEME.length; i++) {
@@ -165,8 +172,9 @@ public class Gama {
         this.SECR = new Semaphore(Gama.cajeros);
         this.SCCR = new Semaphore(0);
         
-        // Semaforo de los carritos de compra
+        // Semaforo de los carritos totales de compra
         this.SCC = new Semaphore(Gama.carritosMax);
+        // Inicialmente se dejan libres solo los carritos minimos
         this.SCC.acquire(Gama.carritosMax - Gama.carritos);
         
     }
@@ -199,23 +207,26 @@ public class Gama {
     /*
      *  Metodo para crear hilos
     */
-    public void crearHilo(int tipo, int num) {
+    public void crearHilo(int tipo, int numEstante) {
         
         switch(tipo) {
             
             case 0: 
                 
                 // Se crea un empleado
-                Employee e = new Employee(); // FALTA PASAR LOS SEMAFOROS
+                Employee e = new Employee(idE, SEME[numEstante], SEE[numEstante], SCE[numEstante]); 
+                empleado.add(e);
+                System.out.println("Se ha creado el empleado " + idE);
+                idE++;
                 e.start();
                 break;
                 
             case 1: 
                 
                 // Se crea un cliente
-                Client c = new Client(SEME, SEE, SCE, SEMCR, SECR, SCCR, SCC, cont);
+                Client c = new Client(SEME, SEE, SCE, SEMCR, SECR, SCCR, SCC, idC);
                 cliente.add(c);
-                cont++;
+                idC++;
                 c.start();
                 break;
                 
@@ -248,8 +259,9 @@ public class Gama {
         
         // los hilos de los empleados que no pueden ser mayor a la cantidad de estantes
         for (int i = 0; i < estantes; i++) {
-            Employee e = new Employee();
-            e.start();
+            
+            crearHilo(0, i);
+            
         }
         
         // los hilos de los cajeros

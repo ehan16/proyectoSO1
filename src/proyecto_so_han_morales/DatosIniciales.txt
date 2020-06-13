@@ -1,4 +1,4 @@
-tiempoHora:         100000    
+tiempoHora:         60      
 estantesIni:        1    
 estantesMax:        3    
 capacidadMax:       10   
