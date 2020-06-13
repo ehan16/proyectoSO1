@@ -453,7 +453,7 @@ public class Interfaz extends javax.swing.JFrame {
         if (Gama.cajeros < Gama.cajasMax) {
 
             Gama.cashiers[Gama.cajeros].setEstatus(true);
-            System.out.println("Se ha añadido al cajero " + Gama.cajeros);
+            System.out.println("Se ha añadido al cajero " + (Gama.cajeros+1));
             Gama.cajeros++;
             gama.getSCCR().release();
             Interfaz.txtCashier.setText(Integer.toString(Gama.cajeros));
@@ -475,7 +475,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         } else {
 
-            //Gama.cajeros--;
+            Gama.cajeros--;
             
             try {
             
@@ -488,8 +488,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
             
             Gama.cashiers[Gama.cajeros].setEstatus(false);
-            System.out.println("Se ha eliminado al cajero " + Gama.cajeros);
-            Gama.cajeros--;
+            System.out.println("Se ha eliminado al cajero " + (Gama.cajeros+1));
             Interfaz.txtCashier.setText(Integer.toString(Gama.cajeros));
 
         }
