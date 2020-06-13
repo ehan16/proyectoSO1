@@ -18,9 +18,9 @@ public class Interfaz extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        this.setVisible(true);
         gama = new Gama();
         gama.Start();
-        
     }
 
     @SuppressWarnings("unchecked")
@@ -407,11 +407,31 @@ public class Interfaz extends javax.swing.JFrame {
              
             try {
                 
-                gama.getSCC().acquire();
-                Gama.carritos--;
-                Interfaz.txtShoppingCarts.setText(Integer.toString(Gama.carritos));
-                
-            } catch (InterruptedException ex) {
+                if(Gama.carritos == Gama.clientesActivos){
+                    
+                    if(!Gama.deseoEliminarCarritoEnUso){//Si no hay carritos pendientes por eliminar
+                        Gama.deseoEliminarCarritoEnUso = true;
+                        JOptionPane.showMessageDialog(null, "Esta tratando de eliminar un carrito que esta en uso "
+                                + ", su acción será tomada en cuenta, pero debe esperar hasta que el cliente salga."
+                                + " Hasta entonces, la función eliminar estará suspendida.", "Error", JOptionPane.ERROR_MESSAGE);
+//                        btnDeleteShoppingCart.setEnabled(false);
+//                        try{
+//                            Gama.sControlEliminaciones.acquire();
+//                            Gama.carritos = Gama.carritos--;
+//                            btnDeleteShoppingCart.setEnabled(true);
+                            //Gama.sControlEliminaciones.release();
+//                        }catch(Exception ex){
+//                            System.out.println("Error " + ex);
+//                        }
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Ya hay una eliminacion pendiente");
+                    }
+                }else{
+                    gama.getSCC().acquire();
+                    Gama.carritos--;
+                    Interfaz.txtShoppingCarts.setText(Integer.toString(Gama.carritos));
+                }
+            } catch (Exception ex) {
                 
                 Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
                 
@@ -467,6 +487,8 @@ public class Interfaz extends javax.swing.JFrame {
             Gama.estante[aux] = new Shelf(Gama.capacidadMax, aux + 1);
             System.out.println("Se ha añadido el estante " + (aux + 1));
             
+            Gama.estantes++;
+            Interfaz.txtShelf.setText(Integer.toString(Gama.estantes));
             // Ahora se crea el empleado que se hara cargo de ese estante
             // y se le asigna los semaforos de ese estante
             gama.crearHilo(0, aux);

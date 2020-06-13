@@ -32,11 +32,11 @@ public class Boss extends Thread {
             try {
                 
                 // El manager dormira una hora de trabajo
-                Thread.sleep((this.sleepTime) - this.elapsed);
+                this.sleep(Gama.tiempoHora-elapsed);
                 
                 // Pasada la hora, aumenta el contador
                 // Lo que tarda en aumentar el contador
-                Thread.sleep(90 * 1000);
+                this.sleep(((Gama.tiempoHora/2) + (Gama.tiempoHora))/60);
                 Gama.horasLaboradas++;
                 System.out.println("El jefe ha aumentado el contador de horas a " + Gama.horasLaboradas);
                 
@@ -45,7 +45,7 @@ public class Boss extends Thread {
                 Interfaz.txtHours.setText(Integer.toString(Gama.horasLaboradas));
                 
                 // Tiempo que tardo en aumentar el contador de horas
-                this.elapsed = 90 * 1000;
+                this.elapsed = (((Gama.tiempoHora/2) + (Gama.tiempoHora))/60);
                 
             } catch (InterruptedException ex) {
                 

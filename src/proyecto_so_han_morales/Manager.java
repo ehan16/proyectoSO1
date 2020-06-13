@@ -38,7 +38,7 @@ public class Manager extends Thread {
                 Interfaz.txtHours.setText("0");
                 
                 // Libera todos los permisos para indicar que las horas se empiezan a contar nuevamente
-                this.SHL.release(8);
+                //this.SHL.release(8);
                 System.out.println("El gerente ha reiniciado las horas y ganancias");
                 
             } catch (InterruptedException ex) {

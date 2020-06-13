@@ -30,17 +30,18 @@ public class Cashier extends Thread{
         this.clientesEsperando = this.clientesEsperando - 1;
     }
     
-    public void despacharCliente(){
+    public void despacharCliente(int id){
         if(clientesEsperando == 0){
             this.setEstatus(true);
         }
         SC.release();
+        System.out.println("El cajero " + id + " ha despachado a un cliente!");
     }
     
     public void procesarProducto(int id) throws InterruptedException{
         
         System.out.println("El cajero " + id + " se encuentra procesando un producto.");
-        Thread.sleep(60*1000);
+        Thread.sleep(Gama.tiempoHora/60);
         System.out.println("El cajero " + id + " ha procesado un producto!");
         
     }

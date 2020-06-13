@@ -3,6 +3,7 @@ package proyecto_so_han_morales;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class Client extends Thread{
     
@@ -67,8 +68,9 @@ public class Client extends Thread{
 
                     // Los cinco minutos que tarda en llegar al estante
                     //this.sleep(300*1000);
-                    this.sleep(60*1000);
-                    System.out.println("El cliente " + this.id + " ha llegado al estante " + Gama.estante[i].getId());
+                    this.sleep((5*Gama.tiempoHora)/60);
+                    System.out.println("El cliente " + this.id + " ha llegado al estante " + Gama.estante[i].getId() + " , "
+                            + "esta observando para entrar");
 
                     // Verifica si existen productos en el estante
                     int productosDisponibles = SCE[i].availablePermits();
@@ -92,11 +94,11 @@ public class Client extends Thread{
                         
                     // Seccion critica
                     this.SEME[i].acquire();
-                    System.out.println("El cliente " + id + " se encuentra buscando productos en el estante");
+                    System.out.println("El cliente " + id + " se encuentra buscando productos en el estante " + Gama.estante[i].getId());
                 
                     // El cliente tarda un minuto en adquirir todos sus productos
                     //this.sleep(60 * 1000);
-                    this.sleep(30*1000);
+                    this.sleep(Gama.tiempoHora/60);
                     productos += productosComprar;
                         
                     for (int j = 0; j < productosComprar; j++) {
@@ -158,11 +160,20 @@ public class Client extends Thread{
             Interfaz.txtEarnings.setText(Integer.toString(Gama.ganancias));
 
             // Seccion de salida
-            SCC.release();
-            System.out.println("El cliente " + this.id + " se ha retirado del supermercado");
-            Gama.clientesActivos--;
-            Interfaz.txtClientsActive.setText(Integer.toString(Gama.clientesActivos));
-
+            if(!Gama.deseoEliminarCarritoEnUso){
+                SCC.release();
+                System.out.println("El cliente " + this.id + " se ha retirado del supermercado");
+                Gama.clientesActivos--;
+                Interfaz.txtClientsActive.setText(Integer.toString(Gama.clientesActivos));
+            }else{
+                System.out.println("El cliente " + this.id + " se ha retirado del supermercado y su carrito ha sido guardado.");
+                Gama.clientesActivos--;
+                Gama.carritos = Gama.carritos--;
+                Interfaz.txtClientsActive.setText(Integer.toString(Gama.clientesActivos));
+                Interfaz.txtShoppingCarts.setText(Integer.toString(Gama.carritos));
+                Gama.deseoEliminarCarritoEnUso = false;
+                JOptionPane.showMessageDialog(null, "Función eliminar reestablecida");
+            }
         } catch (InterruptedException e) {
 
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, e);
@@ -179,12 +190,12 @@ public class Client extends Thread{
         for(int i = 0; i<productos; i++){
             
             cashier.atenderCliente();
-            Thread.sleep(1000/2);//Tiempo que tarda en sacar un producto y colocarlo en el mostrador
+            this.sleep(Gama.tiempoHora/(2*60));//Tiempo que tarda cliente en sacar un producto y colocarlo en el mostrador
             System.out.println("El cliente " + id + " ha colocado un producto sobre el cajero " + idCajero);
             cashier.procesarProducto(idCajero);
             
         }
-        cashier.despacharCliente();
+        cashier.despacharCliente(idCajero);
         
     }
     

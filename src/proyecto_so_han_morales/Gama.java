@@ -22,11 +22,14 @@ public class Gama {
     public static int cajasMax;      // Maximo de cajas
     public static int carritosMax;   // Maximo de carritos
     
+    public static boolean deseoEliminarCarritoEnUso = false;
+    
     // Semaforos (EM = exclusion mutua, C = cliente, E = empleado)
     private Semaphore[] SEME, SCE, SEE;  // Semaforos de los estantes
     private Semaphore SCC;               // Semaforo del carrito de compras
     private Semaphore SEMCR, SCCR, SECR; // Semaforo de las cajas registradoras
     private Semaphore SHL;               // Semaforo de las horas laboradas
+    public static Semaphore sControlEliminaciones = new Semaphore(1); // Semaforo control de eliminaciones
     
     public static int[] pCE; // Apunta al estante para el cliente
     public static int[] pEE; // Apunta al estante para el empleado
@@ -52,7 +55,8 @@ public class Gama {
     
     // CONSTRUCTOR DE LA CLASE 
     
-    public Gama() {
+    public Gama() throws InterruptedException {
+
     }
     
     // METODOS DE LA CLASE
@@ -253,6 +257,7 @@ public class Gama {
                 // Se crea un cliente
                 Client c = new Client(SEME, SEE, SCE, SEMCR, SECR, SCCR, SCC, idC);
                 cliente.add(c);
+                System.out.println("El cliente " + idC + " se encuentra fuera de las instalaciones del Gama.");
                 idC++;
                 c.start();
                 break;
@@ -298,7 +303,7 @@ public class Gama {
             
             // Se crean los hilos de los clientes de manera indefinida cada 5 min
             crearHilo(1, 0);
-            Thread.sleep(300 * 1000);
+            Thread.sleep((5*Gama.tiempoHora)/60);
             
         }
         
