@@ -59,39 +59,30 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel2.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Estantes");
 
         jLabel3.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Cajas registradoras");
 
         jLabel4.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Clientes en el sistema");
 
         jLabel5.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Clientes en espera");
 
         jLabel6.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("Carritos disponibles");
+        jLabel6.setText("Carritos en el Supermercado");
 
         jLabel8.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Horas laborales cursadas");
 
         jLabel9.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Ganancias");
 
         jLabel10.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("Sobre los clientes");
 
         jLabel11.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
         jLabel11.setText("Sobre la sucursal");
 
         btnAddShoppingCart.setBackground(new java.awt.Color(102, 0, 0));
@@ -135,7 +126,6 @@ public class Interfaz extends javax.swing.JFrame {
         });
 
         jLabel12.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
         jLabel12.setText("Sobre las estadísticas");
 
         btnAddShelf.setBackground(new java.awt.Color(102, 0, 0));
@@ -148,8 +138,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        txtClientsActive.setBackground(new java.awt.Color(255, 255, 255));
-        txtClientsActive.setForeground(new java.awt.Color(0, 0, 0));
         txtClientsActive.setText("0");
         txtClientsActive.setEnabled(false);
         txtClientsActive.addActionListener(new java.awt.event.ActionListener() {
@@ -158,8 +146,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        txtClientsWaiting.setBackground(new java.awt.Color(255, 255, 255));
-        txtClientsWaiting.setForeground(new java.awt.Color(0, 0, 0));
         txtClientsWaiting.setText("0");
         txtClientsWaiting.setEnabled(false);
         txtClientsWaiting.addActionListener(new java.awt.event.ActionListener() {
@@ -168,8 +154,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        txtShelf.setBackground(new java.awt.Color(255, 255, 255));
-        txtShelf.setForeground(new java.awt.Color(0, 0, 0));
         txtShelf.setText("0");
         txtShelf.setEnabled(false);
         txtShelf.addActionListener(new java.awt.event.ActionListener() {
@@ -178,8 +162,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        txtShoppingCarts.setBackground(new java.awt.Color(255, 255, 255));
-        txtShoppingCarts.setForeground(new java.awt.Color(0, 0, 0));
         txtShoppingCarts.setText("0");
         txtShoppingCarts.setEnabled(false);
         txtShoppingCarts.addActionListener(new java.awt.event.ActionListener() {
@@ -188,8 +170,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        txtCashier.setBackground(new java.awt.Color(255, 255, 255));
-        txtCashier.setForeground(new java.awt.Color(0, 0, 0));
         txtCashier.setText("0");
         txtCashier.setEnabled(false);
         txtCashier.addActionListener(new java.awt.event.ActionListener() {
@@ -198,8 +178,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        txtEarnings.setBackground(new java.awt.Color(255, 255, 255));
-        txtEarnings.setForeground(new java.awt.Color(0, 0, 0));
         txtEarnings.setText("0");
         txtEarnings.setEnabled(false);
         txtEarnings.addActionListener(new java.awt.event.ActionListener() {
@@ -208,8 +186,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        txtHours.setBackground(new java.awt.Color(255, 255, 255));
-        txtHours.setForeground(new java.awt.Color(0, 0, 0));
         txtHours.setText("0");
         txtHours.setEnabled(false);
         txtHours.addActionListener(new java.awt.event.ActionListener() {
@@ -395,18 +371,18 @@ public class Interfaz extends javax.swing.JFrame {
     private void btnDeleteShoppingCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteShoppingCartActionPerformed
 
         // Se revisa si ya se ha llegado a la cantidad minima
-//        if (Gama.carritos == 1) {
-//             
-//            JOptionPane.showMessageDialog(null, "Ha alcanzado el mínimo de carritos", "ERROR", JOptionPane.ERROR_MESSAGE);
-//             
-//        } else {
-        if (Gama.carritos == Gama.clientesActivos) {
-
-            JOptionPane.showMessageDialog(null, "Ha alcanzado el mínimo de carritos que se pueden eliminar", "ERROR", JOptionPane.ERROR_MESSAGE);
-
+        if (Gama.carritos == 1) {
+             
+            JOptionPane.showMessageDialog(null, "Ha alcanzado el mínimo de carritos", "ERROR", JOptionPane.ERROR_MESSAGE);
+             
         } else {
+            if (Gama.carritos == Gama.clientesActivos) {
 
-            try {
+                JOptionPane.showMessageDialog(null, "No puede eliminar un carrito que actualmente este en uso", "ERROR", JOptionPane.ERROR_MESSAGE);
+
+            } else {
+
+                try {
 
 //                if(Gama.carritos == Gama.clientesActivos){
 //                    
@@ -432,19 +408,19 @@ public class Interfaz extends javax.swing.JFrame {
 //                        
 //                    }
 //                } else {
-                gama.getSCC().acquire();
+                gama.getSCC().acquire(1);
                 Gama.carritos--;
                 Interfaz.txtShoppingCarts.setText(Integer.toString(Gama.carritos));
 
 //                }
-            } catch (InterruptedException ex) {
+                } catch (InterruptedException ex) {
 
-                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+
+                }
 
             }
-
         }
-
     }//GEN-LAST:event_btnDeleteShoppingCartActionPerformed
 
     private void btnAddCashierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCashierActionPerformed
@@ -453,7 +429,7 @@ public class Interfaz extends javax.swing.JFrame {
         if (Gama.cajeros < Gama.cajasMax) {
 
             Gama.cashiers[Gama.cajeros].setEstatus(true);
-            System.out.println("Se ha añadido al cajero " + Gama.cajeros);
+            System.out.println("Se ha añadido al cajero " + (Gama.cajeros+1));
             Gama.cajeros++;
             gama.getSCCR().release();
             Interfaz.txtCashier.setText(Integer.toString(Gama.cajeros));
@@ -475,8 +451,9 @@ public class Interfaz extends javax.swing.JFrame {
 
         } else {
 
+            //System.out.println(Gama.cajeros + " <- cajeros antes de eliminar");
             Gama.cajeros--;
-            
+            //System.out.println(Gama.cajeros + " <- cajeros despues de eliminar");
             try {
             
                 gama.getSCCR().acquire();
@@ -488,7 +465,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
             
             Gama.cashiers[Gama.cajeros].setEstatus(false);
-            System.out.println("Se ha eliminado al cajero " + Gama.cajeros);
+            System.out.println("Se ha eliminado al cajero " + (Gama.cajeros+1));
             Interfaz.txtCashier.setText(Integer.toString(Gama.cajeros));
 
         }

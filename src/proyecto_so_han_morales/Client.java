@@ -131,58 +131,19 @@ public class Client extends Thread {
             Gama.cashiers[Gama.pCR].getSC().acquire();
             Gama.cashiers[Gama.pCR].setEstatus(false);
 
-//            int cajeroConMenorCola = 0;
-//            int clientesEnLaCola = 999;
-//            for(int i = 0; i < Gama.cajeros; i++){
-//                    
-//                if(Gama.cashiers[i].getEstatus() == true){
-//                
-//                    cajeroConMenorCola = i;
-//                    break;
-//                    
-//                } else {
-//                
-//                    if(Gama.cashiers[i].getClientesEsperando() < clientesEnLaCola){
-//                    
-//                        clientesEnLaCola = Gama.cashiers[i].getClientesEsperando();
-//                        cajeroConMenorCola = i;
-//                    
-//                    }
-//                    
-//                    if(i == Gama.cajeros - 1){
-//
-//                        //Quiere decir que todos los cajeros estan ocupados
-//                        Gama.cashiers[cajeroConMenorCola].setClientesEsperando(Gama.cashiers[cajeroConMenorCola].getClientesEsperando()+1);
-//                        
-//                    }
-//                    
-//                }
-//                
-//            }
-//            this.colocarTotalProductos(Gama.cashiers[cajeroConMenorCola], productos, cajeroConMenorCola + 1);
+            // Se procesan los productos necesarios
             this.colocarTotalProductos(Gama.cashiers[Gama.pCR], productos, Gama.pCR + 1);
 
-//            // Se suma lo que consumio el cliente con las ganancias
-//            Gama.ganancias += monto;
-//            Interfaz.txtEarnings.setText(Integer.toString(Gama.ganancias));
-            // Seccion de salida
-//            if(!Gama.deseoEliminarCarritoEnUso){
-//                
-//                SCC.release();
-//                System.out.println("El cliente " + this.id + " se ha retirado del supermercado");
-//                Gama.clientesActivos--;
-//                Interfaz.txtClientsActive.setText(Integer.toString(Gama.clientesActivos));
-//                
-//            }else{
-            System.out.println("El cliente " + this.id + " se ha retirado del supermercado y su carrito ha sido guardado.");
+            // Una vez facturado, permite que otro cliente pase a los cajeros
+            SCC.release();
+            System.out.println("El cliente " + this.id + " se ha retirado del supermercado y ha dejado su carrito.");
+            
+            // Se actualizan los contadores necesarios
             Gama.clientesActivos--;
             Gama.carritos = Gama.carritos--;
             Interfaz.txtClientsActive.setText(Integer.toString(Gama.clientesActivos));
             Interfaz.txtShoppingCarts.setText(Integer.toString(Gama.carritos));
-            Gama.deseoEliminarCarritoEnUso = false;
-            JOptionPane.showMessageDialog(null, "Función eliminar reestablecida");
 
-//            }
         } catch (InterruptedException e) {
 
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, e);
@@ -197,7 +158,6 @@ public class Client extends Thread {
 
         for (int i = 0; i < productos; i++) {
 
-//            cashier.atenderCliente();
             this.sleep(Gama.tiempoHora / (2 * 60));//Tiempo que tarda cliente en sacar un producto y colocarlo en el mostrador
             System.out.println("El cliente " + id + " ha colocado un producto sobre el cajero " + idCajero);
             cashier.procesarProducto(idCajero);
